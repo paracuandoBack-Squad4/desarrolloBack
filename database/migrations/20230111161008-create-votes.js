@@ -1,31 +1,45 @@
-'use strict';
+'use strict'
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Votes', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER
-      },
-      publication_id: {
-        type: Sequelize.UUID
-      },
-      profile_id: {
-        type: Sequelize.UUID
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      }
-    });
+    const transaction = await queryInterface.sequelize.transaction()
+    try {
+      await queryInterface.createTable('Votes', {
+        id: {
+          allowNull: false,
+          autoIncrement: true,
+          primaryKey: true,
+          type: Sequelize.INTEGER
+        },
+        publication_id: {
+          type: Sequelize.UUID
+        },
+        profile_id: {
+          type: Sequelize.UUID
+        },
+        createdAt: {
+          allowNull: false,
+          type: Sequelize.DATE
+        },
+        updatedAt: {
+          allowNull: false,
+          type: Sequelize.DATE
+        }
+      }, { transaction })
+      await transaction.commit()
+    } catch (error) {
+      await transaction.rollback()
+      throw error
+    }
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Votes');
+    const transaction = await queryInterface.sequelize.transaction()
+    try {
+      await queryInterface.dropTable('Votes')
+      await transaction.commit()
+    } catch (error) {
+      await transaction.rollback()
+      throw error
+    }
   }
-};
+}

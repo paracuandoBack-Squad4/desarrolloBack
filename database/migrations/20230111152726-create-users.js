@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -40,7 +40,7 @@ module.exports = {
           allowNull: false,
           type: Sequelize.DATE
         }
-      }, { transaction });
+      }, { transaction })
       await transaction.commit()
     } catch (error) {
       await transaction.rollback()
@@ -50,11 +50,11 @@ module.exports = {
   async down(queryInterface, Sequelize) {
     const transaction = await queryInterface.sequelize.transaction()
     try {
-      await queryInterface.dropTable('Users');
+      await queryInterface.dropTable('Users')
       await transaction.commit()
     } catch (error) {
       await transaction.rollback()
       throw error
     }
   }
-};
+}
