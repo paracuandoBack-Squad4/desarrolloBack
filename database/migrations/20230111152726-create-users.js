@@ -1,4 +1,7 @@
 'use strict'
+
+const { validate } = require('uuid')
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -12,22 +15,35 @@ module.exports = {
           type: Sequelize.INTEGER
         },
         first_name: {
-          type: Sequelize.STRING
+          type: Sequelize.STRING,
+          allowNull: false
         },
         last_name: {
-          type: Sequelize.STRING
+          type: Sequelize.STRING,
+          allowNull: false
         },
         email: {
-          type: Sequelize.STRING
+          type: Sequelize.STRING,
+          unique: true,
+          allowNull: false,
+          validate: {
+            isEmail: true,
+            notEmpty: true
+          }
         },
         username: {
-          type: Sequelize.STRING
+          type: Sequelize.STRING,
+          allowNull: false
         },
         password: {
-          type: Sequelize.STRING
+          type: Sequelize.STRING,
+          allowNull: false
         },
         email_verified: {
-          type: Sequelize.DATEONLY
+          type: Sequelize.DATE,
+          validate: {
+            isDate: true
+          }
         },
         token: {
           type: Sequelize.STRING

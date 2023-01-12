@@ -1,4 +1,10 @@
 'use strict'
+
+const { validate } = require('uuid')
+const Countries = require('../models/countries')
+const User = require('../models/users')
+const Roles = require('../models/roles')
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -10,25 +16,40 @@ module.exports = {
           allowNull: false,
           autoIncrement: true,
           primaryKey: true,
-          type: Sequelize.INTEGER
+          type: Sequelize.UUID
         },
         user_id: {
-          type: Sequelize.INTEGER
+          type: Sequelize.BIGINT,
+          references: {
+            model: User,
+            key: 'id'
+          }
         },
         role_id: {
-          type: Sequelize.INTEGER
+          type: Sequelize.INTEGER,
+          references: {
+            model: Roles,
+            key: 'id'
+          }
         },
         image_url: {
           type: Sequelize.STRING
         },
         code_phone: {
-          type: Sequelize.INTEGER
+          type: Sequelize.INTEGER,
+          allowNull: false
         },
         phone: {
-          type: Sequelize.INTEGER
+          type: Sequelize.INTEGER,
+          allowNull: false,
+          unique: true
         },
         country_id: {
-          type: Sequelize.INTEGER
+          type: Sequelize.INTEGER,
+          references: {
+            model: Countries,
+            key: 'id'
+          }
         },
         createdAt: {
           allowNull: false,

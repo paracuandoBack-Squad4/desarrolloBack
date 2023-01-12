@@ -11,6 +11,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+
+      Publications.belongsTo(models.City, { as: 'city', foreignKey: 'city_id' })
+      Publications.belongsTo(models.Profiles, { as: 'profiles', foreignKey: 'profile_id' })
+      Publications.belongsTo(models.Publications_types, { as: 'publication_types', foreignKey: 'publication_type_id' })
+      Publications.hasMany(models.Votes, { as: 'votes', foreignKey: 'publication_id' })
     }
   }
   Publications.init({

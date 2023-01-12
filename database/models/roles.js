@@ -11,6 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+
+      Roles.hasMany(models.Profiles, { as: 'profiles', foreignKey: 'role_id' })
     }
   }
   Roles.init({

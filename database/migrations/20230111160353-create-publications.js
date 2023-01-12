@@ -1,4 +1,7 @@
 'use strict'
+const Profiles = require('../models/profiles')
+const Publications_type = require('../models/publications_type')
+const City = require('../models/city')
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -9,13 +12,21 @@ module.exports = {
           allowNull: false,
           autoIncrement: true,
           primaryKey: true,
-          type: Sequelize.INTEGER
-        },
-        profile_id: {
           type: Sequelize.UUID
         },
+        profile_id: {
+          type: Sequelize.UUID,
+          references: {
+            model: Profiles,
+            key: 'id'
+          }
+        },
         publication_type_id: {
-          type: Sequelize.INTEGER
+          type: Sequelize.INTEGER,
+          references: {
+            model: Publications_type,
+            key: 'id'
+          }
         },
         title: {
           type: Sequelize.STRING
@@ -30,7 +41,11 @@ module.exports = {
           type: Sequelize.STRING
         },
         city_id: {
-          type: Sequelize.STRING
+          type: Sequelize.STRING,
+          references: {
+            model: City,
+            key: 'id'
+          }
         },
         image_url: {
           type: Sequelize.STRING
