@@ -1,6 +1,7 @@
-const uuid4 = require('uuid')
+const uuid = require('uuid')
+const profiles = require('../database/models/profiles')
 const Profiles = require('../database/models/profiles')
-const { Op } = require('sequelize')
+// const { Op } = require('sequelize')
 const { CustomError } = require('../utils/custom-error')
 
 class ProfilesServices {
@@ -9,34 +10,11 @@ class ProfilesServices {
 
   }
 
-  async findAndCount(query) {
-    const options = {
-      where: {},
-    }
-
-    const { limit, offset } = query
-    if (limit && offset) {
-      options.limit = limit
-      options.offset = offset
-    }
-
-    const { name } = query
-    if (name) {
-      options.where.name = { [Op.iLike]: `%${name}%` }
-    }
-
-    //Necesario para el findAndCountAll de Sequelize
-    options.distinct = true
-
-    const profiles = await Profiles().findAndCountAll(options)
-    return profiles
-  }
-
-  async createProfile(obj) {
+  createProfile = async (obj) => {
     const transaction = await Profiles().sequelize.transaction()
     try {
-      let newProfile = await Profiles().create({
-        id: uuid4(),
+      let newProfile = await profiles.create({
+        id: uuid.v4(),
         user_id: obj.user_id,
         role_id: obj.role_id,
         image_url: obj.image_url,
@@ -51,19 +29,6 @@ class ProfilesServices {
       await transaction.rollback()
       throw error
     }
-  }
-
-  async getProfileOr404(id) {
-    let profile = await Profiles().findByPk(id)
-
-    if (!profile) throw new CustomError('Not found Profile', 404, 'Not Found')
-
-    return profile
-  }
-
-  async getProfile(id) {
-    let profile = await Profiles().findByPk(id, { raw: true })
-    return profile
   }
 
   async updateProfile(id, obj) {
@@ -90,23 +55,6 @@ class ProfilesServices {
     }
   }
 
-  async removeProfile(id) {
-    const transaction = await Profiles().sequelize.transaction()
-    try {
-      let profile = await Profiles().findByPk(id)
-
-      if (!profile) throw new CustomError('Not found profile', 404, 'Not Found')
-
-      await profile.destroy({ transaction })
-
-      await transaction.commit()
-
-      return profile
-    } catch (error) {
-      await transaction.rollback()
-      throw error
-    }
-  }
 
 }
 
