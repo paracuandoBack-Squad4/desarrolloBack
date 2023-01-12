@@ -1,7 +1,7 @@
 const uuid4 = require('uuid')
-const Users = require('../database/models/users');
-const { Op } = require('sequelize');
-const { CustomError } = require('../utils/custom-error');
+const Users = require('../database/models/users')
+const { Op } = require('sequelize')
+const { CustomError } = require('../utils/custom-error')
 
 class UsersService {
 
@@ -38,7 +38,7 @@ class UsersService {
       let newUser = await Users().create({
         //id: uuid4() --> aquí se debe usar el uuid maker si es que se usa
         id: uuid4(),
-        firts_name: obj.firts_name,
+        first_name: obj.first_name,
         last_name: obj.last_name,
         email: obj.email,
         username: obj.username,
@@ -77,7 +77,7 @@ class UsersService {
       if (!user) throw new CustomError('Not found user', 404, 'Not Found')
 
       let updatedUser = await user.update({
-        firts_name: obj.firts_name,
+        first_name: obj.first_name,
         last_name: obj.last_name,
         email: obj.email,
         username: obj.username,

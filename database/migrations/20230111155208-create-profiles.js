@@ -30,7 +30,8 @@ module.exports = {
           references: {
             model: Roles,
             key: 'id'
-          }
+          }, 
+          defaultValue: 'user'
         },
         image_url: {
           type: Sequelize.STRING

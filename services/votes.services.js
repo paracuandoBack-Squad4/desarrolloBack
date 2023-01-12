@@ -24,19 +24,19 @@ class votesServices {
     }
   }
 
-  async findAllVotes(id) {
-    let votes = await Votes().findAll({
-      where: {
-        publication_id: id
-      }
-    })
+  async findAllVotes() {
+    let votes = await Votes().findAll()
     return votes
   }
 
   async removeVote(id) {
     const transaction = await Votes().sequelize.transaction()
     try {
-      let vote = await Votes().findByPk(id)
+      let vote = await Votes().findOne({
+        where: {
+          publication_id: id
+        }
+      })
 
       if (vote) throw new CustomError('Not found publication', 404, 'Not Found')
 
