@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Votes.belongsTo(models.Profiles, { as: 'profiles', foreignKey: 'profile_id' })
-      Votes.belongsToMany(models.Publications, { as: 'publications', through: models.Publications, foreignKey: 'publication_id' })
+      Votes.belongsTo(models.Publications, { as: 'publications', foreignKey: 'publication_id' })
     }
   }
   Votes.init({

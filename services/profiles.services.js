@@ -1,11 +1,11 @@
 const uuid4 = require('uuid')
-const Profiles = require('../database/models/profiles');
-const {Op} = require('sequelize');
-const { CustomError } = require('../utils/custom-error');
+const Profiles = require('../database/models/profiles')
+const { Op } = require('sequelize')
+const { CustomError } = require('../utils/custom-error')
 
 class ProfilesServices {
 
-  constructor(){
+  constructor() {
 
   }
 
@@ -14,47 +14,49 @@ class ProfilesServices {
       where: {},
     }
 
-    const { limit, offset } = query;
+    const { limit, offset } = query
     if (limit && offset) {
-      options.limit = limit;
-      options.offset = offset;
+      options.limit = limit
+      options.offset = offset
     }
 
-    const { name } = query;
+    const { name } = query
     if (name) {
-      options.where.name = { [Op.iLike]: `%${name}%` };
+      options.where.name = { [Op.iLike]: `%${name}%` }
     }
 
     //Necesario para el findAndCountAll de Sequelize
     options.distinct = true
 
-    const profiles = await Profiles().findAndCountAll(options);
-    return profiles;
+    const profiles = await Profiles().findAndCountAll(options)
+    return profiles
   }
 
   async createProfile(obj) {
-    const transaction = await Profiles().sequelize.transaction();
+    const transaction = await Profiles().sequelize.transaction()
     try {
-      let newProfile = await Profile().create({
-        id: uuid4(), 
-        image_url: obj.image_url,                
+      let newProfile = await Profiles().create({
+        id: uuid4(),
+        user_id: obj.user_id,
+        role_id: obj.role_id,
+        image_url: obj.image_url,
         code_phone: obj.code_phone,
         phone: obj.phone,
         country_id: obj.country_id
-      }, { transaction });
+      }, { transaction })
 
-      await transaction.commit();
+      await transaction.commit()
       return newProfile
     } catch (error) {
-      await transaction.rollback();
+      await transaction.rollback()
       throw error
     }
   }
 
   async getProfileOr404(id) {
-    let profile = await Profiles().findByPk(id);
+    let profile = await Profiles().findByPk(id)
 
-    if (!profile) throw new CustomError('Not found Profile', 404, 'Not Found');
+    if (!profile) throw new CustomError('Not found Profile', 404, 'Not Found')
 
     return profile
   }
@@ -65,9 +67,9 @@ class ProfilesServices {
   }
 
   async updateProfile(id, obj) {
-    const transaction = await Profiles().sequelize.transaction();
+    const transaction = await Profiles().sequelize.transaction()
     try {
-      let profile = await Profiles().findByPk(id);
+      let profile = await Profiles().findByPk(id)
 
       if (!profile) throw new CustomError('Not found profile', 404, 'Not Found')
 
@@ -78,18 +80,18 @@ class ProfilesServices {
         country_id: obj.country_id
       }, { transaction })
 
-      await transaction.commit();
+      await transaction.commit()
 
       return updatedProfile
 
     } catch (error) {
-      await transaction.rollback();
+      await transaction.rollback()
       throw error
     }
   }
 
   async removeProfile(id) {
-    const transaction = await Profiles().sequelize.transaction();
+    const transaction = await Profiles().sequelize.transaction()
     try {
       let profile = await Profiles().findByPk(id)
 
@@ -97,11 +99,11 @@ class ProfilesServices {
 
       await profile.destroy({ transaction })
 
-      await transaction.commit();
+      await transaction.commit()
 
       return profile
     } catch (error) {
-      await transaction.rollback();
+      await transaction.rollback()
       throw error
     }
   }

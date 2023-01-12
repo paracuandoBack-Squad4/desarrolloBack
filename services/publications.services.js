@@ -14,26 +14,26 @@ class PublicationsServices {
       where: {},
     }
 
-    const { limit, offset } = query;
+    const { limit, offset } = query
     if (limit && offset) {
-      options.limit = limit;
-      options.offset = offset;
+      options.limit = limit
+      options.offset = offset
     }
 
-    const { name } = query;
+    const { name } = query
     if (name) {
-      options.where.name = { [Op.iLike]: `%${name}%` };
+      options.where.name = { [Op.iLike]: `%${name}%` }
     }
 
     //Necesario para el findAndCountAll de Sequelize
     options.distinct = true
 
-    const publications = await Publications().findAndCountAll(options);
-    return publications;
+    const publications = await Publications().findAndCountAll(options)
+    return publications
   }
 
   async createPublication(obj) {
-    const transaction = await Publications().sequelize.transaction();
+    const transaction = await Publications().sequelize.transaction()
     try {
       let newPublication = await Publications().create({
         id: uuid4(),
@@ -45,23 +45,29 @@ class PublicationsServices {
         picture: obj.picture,
         city_id: obj.city_id,
         image_url: obj.image_url
-      }, { transaction });
+      }, { transaction })
 
-      await transaction.commit();
+      await transaction.commit()
       return newPublication
     } catch (error) {
-      await transaction.rollback();
+      await transaction.rollback()
       throw error
     }
   }
 
   async getPublicationOr404(id) {
-    let publication = await Publications().findByPk(id);
+    let publication = await Publications().findByPk(id)
 
-    if (!publication) throw new CustomError('Not found Publication', 404, 'Not Found');
+    if (!publication) throw new CustomError('Not found Publication', 404, 'Not Found')
 
     return publication
   }
+
+  async getAllPublications() {
+    let publication = await Publications().findAll()
+    return publication
+  }
+
 
   async getPublication(id) {
     let publication = await Publications().findByPk(id, { raw: true })
@@ -69,9 +75,9 @@ class PublicationsServices {
   }
 
   async updatePublication(id, obj) {
-    const transaction = await Publications().sequelize.transaction();
+    const transaction = await Publications().sequelize.transaction()
     try {
-      let publications = await Publications().findByPk(id);
+      let publications = await Publications().findByPk(id)
 
       if (!publications) throw new CustomError('Not found publications', 404, 'Not Found')
 
@@ -85,18 +91,18 @@ class PublicationsServices {
         image_url: obj.image_url
       }, { transaction })
 
-      await transaction.commit();
+      await transaction.commit()
 
       return updatedPublication
 
     } catch (error) {
-      await transaction.rollback();
+      await transaction.rollback()
       throw error
     }
   }
 
   async removePublication(id) {
-    const transaction = await Publications().sequelize.transaction();
+    const transaction = await Publications().sequelize.transaction()
     try {
       let publication = await Publications().findByPk(id)
 
@@ -104,11 +110,11 @@ class PublicationsServices {
 
       await publication.destroy({ transaction })
 
-      await transaction.commit();
+      await transaction.commit()
 
       return publication
     } catch (error) {
-      await transaction.rollback();
+      await transaction.rollback()
       throw error
     }
   }
