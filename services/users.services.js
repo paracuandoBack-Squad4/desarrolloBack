@@ -38,7 +38,7 @@ class UsersService {
       let newUser = await Users().create({
         //id: uuid4() --> aquí se debe usar el uuid maker si es que se usa
         id: uuid4(),
-        firts_name: obj.firts_name,
+        first_name: obj.firts_name,
         last_name: obj.last_name,
         email: obj.email,
         username: obj.username,
