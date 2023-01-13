@@ -2,6 +2,8 @@ const uuid4 = require('uuid')
 const Users = require('../database/models/users')
 const { Op } = require('sequelize')
 const { CustomError } = require('../utils/custom-error')
+const { hash } = require('../utils/Crypto')
+
 
 class UsersService {
 
@@ -42,7 +44,7 @@ class UsersService {
         last_name: obj.last_name,
         email: obj.email,
         username: obj.username,
-        password: obj.password,
+        password: hash(obj.password),
         email_verified: obj.email_verified,
         token: obj.token
       }, { transaction })
