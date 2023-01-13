@@ -45,6 +45,29 @@ Routes
 /* 
     Tell everyone the state of your api
 */
+const routerModels = require('./routes/models.router')
+//.
+//.
+//.
+
+/*
+Routes
+*/
+
+app.get('/', ({ res }) => {
+  res.json({
+    api: 'API Join Momentum',
+    state: 'Up and Running',
+    version: '1.0.0'
+  })
+})
+
+// publicRouter(app)
+// docsRouter(app)
+// thirdPartyServicesRouter(app)
+routerModels(app) //Here we can add others
+// errorHandlerRouter(app)
+
 app.get('/', ({ res }) => {
   return res.json({
     status: 'Up',
@@ -55,3 +78,4 @@ app.get('/', ({ res }) => {
 app.listen(PORT, () => {
   console.log(`Server on PORT: ${PORT}`)
 })
+

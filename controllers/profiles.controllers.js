@@ -1,5 +1,3 @@
-const { request } = require('chai')
-const { response } = require('express')
 const ProfilesServices = require('../services/profiles.services')
 
 const profileService = new ProfilesServices()
@@ -27,6 +25,6 @@ const updateProfile = async (request, response, next) => {
 }
 
 module.exports = {
-  addProfile, 
+  addProfile,
   updateProfile
 }
