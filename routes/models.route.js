@@ -1,5 +1,5 @@
 const express = require('express')
-const routesUsers = require('./users.routes')
+const routesUsers = require('./users.route')
 const routesProfiles = require('./profiles.route')
 const routesCountries = require('./countries.route')
 const routesCities = require('./cities.route')

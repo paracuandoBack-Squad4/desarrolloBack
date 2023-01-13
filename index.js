@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const helmet = require('helmet')
+const routerModels = require('./routes/models.route')
 require('dotenv').config()
 
 const app = express()
@@ -45,7 +46,6 @@ Routes
 /* 
     Tell everyone the state of your api
 */
-const routerModels = require('./routes/models.router')
 //.
 //.
 //.
