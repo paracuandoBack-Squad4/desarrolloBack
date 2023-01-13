@@ -27,7 +27,7 @@ module.exports = {
           allowNull: false,
           foreignKey: true,
           references: {
-            model: 'Publications_type',
+            model: 'Publications_types',
             key: 'id'
           },
           onUpdate: 'CASCADE',
@@ -46,11 +46,11 @@ module.exports = {
           type: Sequelize.STRING
         },
         city_id: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.BIGINT,
           allowNull: false,
           foreignKey: true,
           references: {
-            model: 'City',
+            model: 'Cities',
             key: 'id'
           },
           onUpdate: 'CASCADE',

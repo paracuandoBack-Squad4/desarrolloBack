@@ -10,16 +10,27 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      City.belongsTo(models.countries, { as: 'countries', foreignKey: 'country_id' })
-      City.hasMany(models.publications, { as: 'publications', foreignKey: 'city_id' })
+      City.belongsTo(models.countries, { as: 'Countries', foreignKey: 'country_id' })
+      City.hasMany(models.publications, { as: 'Publications', foreignKey: 'city_id' })
     }
   }
   City.init({
-    country_id: DataTypes.INTEGER,
+    country_id: DataTypes.BIGINT,
     name: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'City',
+    tableName: 'city',
+    underscored: true,
+    timestamps: true,
+    scopes: {
+      public_view: {
+        attributes: ['name']
+      },
+      no_timestamps: {
+        attributes: { exclude: ['created_at', 'updated_at'] }
+      },
+    },
   });
   return City;
 };

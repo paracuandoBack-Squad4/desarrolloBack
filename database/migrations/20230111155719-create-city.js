@@ -11,10 +11,10 @@ module.exports = {
           allowNull: false,
           autoIncrement: true,
           primaryKey: true,
-          type: Sequelize.INTEGER
+          type: Sequelize.BIGINT
         },
         country_id: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.BIGINT,
           references: {
             model: 'Countries',
             key: 'id'

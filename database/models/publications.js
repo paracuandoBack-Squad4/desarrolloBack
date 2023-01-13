@@ -10,10 +10,10 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Publications.belongsTo(models.city, { as: 'city', foreignKey: 'city_id' })
-      Publications.belongsTo(models.profiles, { as: 'profiles', foreignKey: 'profile_id' })
-      Publications.belongsTo(models.publications_types, { as: 'publication_types', foreignKey: 'publication_type_id' })
-      Publications.hasMany(models.votes, { as: 'votes', foreignKey: 'publication_id' })
+      Publications.belongsTo(models.city, { as: 'City', foreignKey: 'city_id' })
+      Publications.belongsTo(models.profiles, { as: 'Profiles', foreignKey: 'profile_id' })
+      Publications.belongsTo(models.publications_types, { as: 'Publication_types', foreignKey: 'publication_type_id' })
+      Publications.hasMany(models.votes, { as: 'Votes', foreignKey: 'publication_id' })
     }
   }
   Publications.init({
@@ -28,6 +28,17 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Publications',
+    tableName: 'publications',
+    underscored: true,
+    timestamps: true,
+    scopes: {
+      public_view: {
+        attributes: ['title', 'description', 'content', 'picture', 'image_url']
+      },
+      no_timestamps: {
+        attributes: { exclude: ['created_at', 'updated_at'] }
+      },
+    },
   });
   return Publications;
 };
