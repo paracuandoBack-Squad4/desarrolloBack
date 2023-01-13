@@ -10,12 +10,10 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
-
-      Publications.belongsTo(models.City, { as: 'city', foreignKey: 'city_id' })
-      Publications.belongsTo(models.Profiles, { as: 'profiles', foreignKey: 'profile_id' })
-      Publications.belongsTo(models.Publications_types, { as: 'publication_types', foreignKey: 'publication_type_id' })
-      Publications.hasMany(models.Votes, { as: 'votes', foreignKey: 'publication_id' })
+      Publications.belongsTo(models.city, { as: 'city', foreignKey: 'city_id' })
+      Publications.belongsTo(models.profiles, { as: 'profiles', foreignKey: 'profile_id' })
+      Publications.belongsTo(models.publications_types, { as: 'publication_types', foreignKey: 'publication_type_id' })
+      Publications.hasMany(models.votes, { as: 'votes', foreignKey: 'publication_id' })
     }
   }
   Publications.init({
@@ -25,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.STRING,
     content: DataTypes.STRING,
     picture: DataTypes.STRING,
-    city_id: DataTypes.STRING,
+    city_id: DataTypes.INTEGER,
     image_url: DataTypes.STRING
   }, {
     sequelize,

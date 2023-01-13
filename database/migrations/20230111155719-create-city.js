@@ -1,5 +1,4 @@
 'use strict'
-const Countries = require('../models/countries')
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -17,7 +16,7 @@ module.exports = {
         country_id: {
           type: Sequelize.INTEGER,
           references: {
-            model: Countries,
+            model: 'Countries',
             key: 'id'
           }
         },

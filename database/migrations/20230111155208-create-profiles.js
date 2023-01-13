@@ -1,8 +1,4 @@
 'use strict'
-const Country = require('../models/countries')
-const User = require('../models/users')
-const Role = require('../models/roles')
-
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -19,9 +15,10 @@ module.exports = {
         },
         user_id: {
           type: Sequelize.BIGINT,
+          allowNull: false,
           foreignKey: true,
           references: {
-            model: User,
+            model: 'Users',
             key: 'id'
           },
           onUpdate: 'CASCADE',
@@ -29,12 +26,12 @@ module.exports = {
         },
         role_id: {
           type: Sequelize.INTEGER,
+          allowNull: false,
           foreignKey: true,
           references: {
-            model: Role,
+            model: 'Roles',
             key: 'id'
           },
-          defaultValue: 'user',
           onUpdate: 'CASCADE',
           onDelete: 'RESTRICT'
 
@@ -53,9 +50,10 @@ module.exports = {
         },
         country_id: {
           type: Sequelize.INTEGER,
+          allowNull: false,
           foreignKey: true,
           references: {
-            model: Country,
+            model: 'Countries',
             key: 'id'
           },
           onUpdate: 'CASCADE',

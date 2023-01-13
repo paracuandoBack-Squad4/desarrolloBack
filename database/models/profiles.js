@@ -1,7 +1,6 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Profiles extends Model {
     /**
@@ -10,12 +9,11 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
-      Profiles.belongsTo(models.Roles, { as: 'roles', foreignKey: 'role_id' })
-      Profiles.belongsTo(models.Users, { as: 'users', foreignKey: 'user_id' })
-      Profiles.belongsTo(models.Countries, { as: 'countries', foreignKey: 'country_id' })
-      Profiles.hasMany(models.Publications, { as: 'publications', foreignKey: 'profile_id' })
-      Profiles.hasMany(models.Votes, { as: 'votes', foreignKey: 'profile_id' })
+      Profiles.belongsTo(models.roles, { as: 'roles', foreignKey: 'role_id' })
+      Profiles.belongsTo(models.users, { as: 'users', foreignKey: 'user_id' })
+      Profiles.belongsTo(models.countries, { as: 'countries', foreignKey: 'country_id' })
+      Profiles.hasMany(models.publications, { as: 'publications', foreignKey: 'profile_id' })
+      Profiles.hasMany(models.votes, { as: 'votes', foreignKey: 'profile_id' })
     }
   }
   Profiles.init({

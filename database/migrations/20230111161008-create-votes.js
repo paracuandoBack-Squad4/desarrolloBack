@@ -1,7 +1,4 @@
 'use strict'
-
-const Profile = require('../models/profiles')
-const Publication = require('../models/publications')
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -12,19 +9,19 @@ module.exports = {
           allowNull: false,
           autoIncrement: true,
           primaryKey: true,
-          type: Sequelize.INTEGER
+          type: Sequelize.BIGINT
         },
         publication_id: {
           type: Sequelize.UUID,
           references: {
-            model: Publication,
+            model: 'Publications',
             key: 'id'
           }
         },
         profile_id: {
           type: Sequelize.UUID,
           references: {
-            model: Profile,
+            model: 'Profiles',
             key: 'id'
           }
         },

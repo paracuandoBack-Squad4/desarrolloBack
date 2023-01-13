@@ -1,7 +1,5 @@
 'use strict'
-const Profiles = require('../models/profiles')
-const Publications_type = require('../models/publications_type')
-const City = require('../models/city')
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -10,23 +8,30 @@ module.exports = {
       await queryInterface.createTable('Publications', {
         id: {
           allowNull: false,
-          autoIncrement: true,
           primaryKey: true,
           type: Sequelize.UUID
         },
         profile_id: {
           type: Sequelize.UUID,
+          allowNull: false,
+          foreignKey: true,
           references: {
-            model: Profiles,
+            model: 'Profiles',
             key: 'id'
-          }
+          },
+          onUpdate: 'CASCADE',
+          onDelete: 'RESTRICT'
         },
         publication_type_id: {
           type: Sequelize.INTEGER,
+          allowNull: false,
+          foreignKey: true,
           references: {
-            model: Publications_type,
+            model: 'Publications_type',
             key: 'id'
-          }
+          },
+          onUpdate: 'CASCADE',
+          onDelete: 'RESTRICT'
         },
         title: {
           type: Sequelize.STRING
@@ -41,11 +46,15 @@ module.exports = {
           type: Sequelize.STRING
         },
         city_id: {
-          type: Sequelize.STRING,
+          type: Sequelize.INTEGER,
+          allowNull: false,
+          foreignKey: true,
           references: {
-            model: City,
+            model: 'City',
             key: 'id'
-          }
+          },
+          onUpdate: 'CASCADE',
+          onDelete: 'RESTRICT'
         },
         image_url: {
           type: Sequelize.STRING
