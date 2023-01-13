@@ -1,9 +1,8 @@
 'use strict'
-
-const { validate } = require('uuid')
-const Countries = require('../models/countries')
+const Country = require('../models/countries')
 const User = require('../models/users')
-const Roles = require('../models/roles')
+const Role = require('../models/roles')
+
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -14,24 +13,31 @@ module.exports = {
       await queryInterface.createTable('Profiles', {
         id: {
           allowNull: false,
-          autoIncrement: true,
           primaryKey: true,
+          defaultValue: Sequelize.UUIDV4,
           type: Sequelize.UUID
         },
         user_id: {
           type: Sequelize.BIGINT,
+          foreignKey: true,
           references: {
             model: User,
             key: 'id'
-          }
+          },
+          onUpdate: 'CASCADE',
+          onDelete: 'RESTRICT'
         },
         role_id: {
           type: Sequelize.INTEGER,
+          foreignKey: true,
           references: {
-            model: Roles,
+            model: Role,
             key: 'id'
-          }, 
-          defaultValue: 'user'
+          },
+          defaultValue: 'user',
+          onUpdate: 'CASCADE',
+          onDelete: 'RESTRICT'
+
         },
         image_url: {
           type: Sequelize.STRING
@@ -47,18 +53,24 @@ module.exports = {
         },
         country_id: {
           type: Sequelize.INTEGER,
+          foreignKey: true,
           references: {
-            model: Countries,
+            model: Country,
             key: 'id'
-          }
+          },
+          onUpdate: 'CASCADE',
+          onDelete: 'RESTRICT'
+
         },
         createdAt: {
           allowNull: false,
-          type: Sequelize.DATE
+          type: Sequelize.DATE,
+          field: 'created_at'
         },
         updatedAt: {
           allowNull: false,
-          type: Sequelize.DATE
+          type: Sequelize.DATE,
+          field: 'updated_at'
         }
       }, { transaction })
       await transaction.commit()

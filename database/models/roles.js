@@ -19,7 +19,19 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'Roles',
+    modelName: 'Users',
+    tableName: 'users',
+    underscored: true,
+    timestamps: true,
+
+    scopes: {
+      public_view: {
+        attributes: ['name']
+      },
+      no_timestamps: {
+        attributes: { exclude: ['created_at', 'updated_at'] }
+      },
+    },
   });
   return Roles;
 };

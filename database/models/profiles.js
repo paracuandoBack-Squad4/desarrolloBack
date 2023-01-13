@@ -28,6 +28,17 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Profiles',
+    tableName: 'profiles',
+    underscored: true,
+    timestamps: true,
+    scopes: {
+      public_view: {
+        attributes: ['id', 'country_id', 'user_id']
+      },
+      no_timestamps: {
+        attributes: { exclude: ['created_at', 'updated_at'] }
+      },
+    },
   });
   return Profiles;
 };
