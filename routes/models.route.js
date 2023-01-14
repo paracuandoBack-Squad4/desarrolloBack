@@ -15,12 +15,12 @@ function routerModels(app) {
 
   app.use('/api/v1', router)
 
-  routesLogin('/login', routesLogin)
+  router.use('/login', routesLogin)
   router.use('/sign-up', routesUsers)
   router.use('/profiles', routesProfiles)
   router.use('/countries', routesCountries)
   router.use('/cities', routesCities)
-  router.use('/publications', passport, routesPublications)
+  router.use('/publications', routesPublications)
   router.use('/publicationsType', routesPublicationsType)
   router.use('/votes', routesVotes)
 

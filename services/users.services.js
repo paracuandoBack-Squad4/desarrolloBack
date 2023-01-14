@@ -1,8 +1,8 @@
-const uuid4 = require('uuid')
 const Users = require('../database/models/users')
 const { Op } = require('sequelize')
 const { CustomError } = require('../utils/custom-error')
 const { hash } = require('../utils/Crypto')
+const { v4: uuid4 } = require('uuid')
 
 
 class UsersService {
@@ -35,10 +35,10 @@ class UsersService {
   }
 
   async createUser(obj) {
-    const transaction = await Users().sequelize.transaction()
+    const transaction = await Users.sequelize.transaction()
+
     try {
       let newUser = await Users().create({
-        //id: uuid4() --> aquí se debe usar el uuid maker si es que se usa
         id: uuid4(),
         first_name: obj.first_name,
         last_name: obj.last_name,
@@ -48,13 +48,20 @@ class UsersService {
         email_verified: obj.email_verified,
         token: obj.token
       }, { transaction })
-
       await transaction.commit()
+
       return newUser
+
     } catch (error) {
       await transaction.rollback()
+
       throw error
     }
+
+
+
+
+
   }
   //Return Instance if we do not converted to json (or raw:true)
   async getUserOr404(id) {

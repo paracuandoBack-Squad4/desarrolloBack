@@ -9,7 +9,7 @@ const getUsers = async (request, response, next) => {
     let { page, size } = query
 
     const { limit, offset } = getPagination(page, size, '10')
-    query.limit = limit 
+    query.limit = limit
     query.offset = offset
 
     let users = await usersService.findAndCount(query)
@@ -22,13 +22,17 @@ const getUsers = async (request, response, next) => {
 }
 
 const addUser = async (request, response, next) => {
-  try {
-    let { first_name, last_name, email, username, password } = request.body
+  let { first_name, last_name, email, username, password } = request.body
+  if (first_name && last_name && email && username && password) {
     let user = await usersService.createUser({ first_name, last_name, email, username, password })
-    return response.status(201).json({ results: user })
-  } catch (error) {
-    next(error)
+      .then(data => response.status(200).json(data))
+      .catch(err => response.status(400).json({ message: err }))
   }
+  else {
+    response.status(400).json({ fields: { message: 'string' } })
+  }
+
+
 }
 
 const getUser = async (request, response, next) => {
