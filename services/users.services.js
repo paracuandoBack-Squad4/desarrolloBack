@@ -71,6 +71,15 @@ class UsersService {
     return user
   }
 
+  async getUserByEmail(email) {
+    let user = await Users().findOne({
+      where: {
+        email: email
+      }
+    })
+    return user
+  }
+
   async updateUser(id, obj) {
     const transaction = await Users().sequelize.transaction()
     try {
