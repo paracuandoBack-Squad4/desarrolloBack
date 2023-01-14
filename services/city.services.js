@@ -8,7 +8,7 @@ class CitiesServices {
   async getCity(id) {
     let city = await models.City().findAll({
       where: {
-        country_id: id
+        state_id: id
       }
     })
     return city

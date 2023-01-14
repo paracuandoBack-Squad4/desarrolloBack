@@ -13,10 +13,10 @@ module.exports = {
           primaryKey: true,
           type: Sequelize.BIGINT
         },
-        country_id: {
+        state_id: {
           type: Sequelize.BIGINT,
           references: {
-            model: 'Countries',
+            model: 'State',
             key: 'id'
           }
         },

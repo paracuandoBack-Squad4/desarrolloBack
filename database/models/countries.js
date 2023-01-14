@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Countries.hasMany(models.Profiles, { as: 'Profiles', foreignKey: 'country_id' })
-      Countries.hasMany(models.City, { as: 'Cities', foreignKey: 'country_id' })
+      Countries.hasMany(models.State, { as: 'State', foreignKey: 'country_id' })
     }
   }
   Countries.init({

@@ -1,8 +1,8 @@
-const CitiesServices = require('../services/cities.services')
+const CitiesServices = require('../services/city.services')
 
 const CitiesService = new CitiesServices()
 
-const getCityByCountry = async (request, response, next) => {
+const getCityByState = async (request, response, next) => {
   try {
     let { id } = request.params
     let cities = await CitiesService.getCity(id)
@@ -12,4 +12,4 @@ const getCityByCountry = async (request, response, next) => {
   }
 }
 
-module.exports = { getCityByCountry }
+module.exports = { getCityByState }
