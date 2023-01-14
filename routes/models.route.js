@@ -2,12 +2,11 @@ const express = require('express')
 const routesUsers = require('./users.route')
 const routesProfiles = require('./profiles.route')
 const routesCountries = require('./countries.route')
-const routesCities = require('./cities.route')
+const routesCities = require('./city.route')
 const routesPublications = require('./publications.route')
 const routesPublicationsType = require('./publicatios_type.route')
 const routesVotes = require('./votes.route')
 const routesLogin = require('../auth/auth.route')
-const passport = require('passport')
 
 
 function routerModels(app) {
@@ -19,9 +18,9 @@ function routerModels(app) {
   router.use('/sign-up', routesUsers)
   router.use('/profiles', routesProfiles)
   router.use('/countries', routesCountries)
-  router.use('/cities', routesCities)
+  router.use('/city', routesCities)
   router.use('/publications', routesPublications)
-  router.use('/publicationsType', routesPublicationsType)
+  router.use('/publications_type', routesPublicationsType)
   router.use('/votes', routesVotes)
 
 }

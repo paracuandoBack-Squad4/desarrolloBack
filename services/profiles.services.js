@@ -1,7 +1,7 @@
 const { v4: uuid4 } = require('uuid');
 const Profiles = require('../database/models/profiles')
-// const { Op } = require('sequelize')
 const { CustomError } = require('../utils/custom-error')
+const models = require('../database/models')
 
 class ProfilesServices {
 
@@ -12,7 +12,7 @@ class ProfilesServices {
   async updateProfile(id, obj) {
     const transaction = await Profiles().sequelize.transaction()
     try {
-      let profile = await Profiles().findByPk(id)
+      let profile = await models.Profiles().findByPk(id)
 
       if (!profile) throw new CustomError('Not found profile', 404, 'Not Found')
 

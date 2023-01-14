@@ -3,7 +3,7 @@ const router = express.Router()
 
 const {
   getCityByCountry
-} = require('../controllers/cities.controllers')
+} = require('../controllers/city.controllers')
 
 
 router.get('/id', getCityByCountry)

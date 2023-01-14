@@ -27,7 +27,7 @@ module.exports = {
           allowNull: false,
           foreignKey: true,
           references: {
-            model: 'Publications_types',
+            model: 'Publications_type',
             key: 'id'
           },
           onUpdate: 'CASCADE',
@@ -50,7 +50,7 @@ module.exports = {
           allowNull: false,
           foreignKey: true,
           references: {
-            model: 'Cities',
+            model: 'City',
             key: 'id'
           },
           onUpdate: 'CASCADE',

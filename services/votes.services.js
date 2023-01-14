@@ -1,4 +1,4 @@
-const Votes = require('../database/models/votes')
+const models = require('../database/models')
 const { CustomError } = require('../utils/custom-error')
 
 
@@ -9,9 +9,9 @@ class votesServices {
 
   }
   async createVote(obj) {
-    const transaction = await Votes().sequelize.transaction()
+    const transaction = await models.Votes().sequelize.transaction()
     try {
-      let newPublication = await Votes().create({
+      let newPublication = await models.Votes().create({
         profile_id: obj.profile_id,
         publication_id: obj.publication_id
       }, { transaction })
@@ -25,14 +25,14 @@ class votesServices {
   }
 
   async findAllVotes() {
-    let votes = await Votes().findAll()
+    let votes = await models.Votes().findAll()
     return votes
   }
 
   async removeVote(id) {
-    const transaction = await Votes().sequelize.transaction()
+    const transaction = await models.Votes().sequelize.transaction()
     try {
-      let vote = await Votes().findOne({
+      let vote = await models.Votes().findOne({
         where: {
           publication_id: id
         }

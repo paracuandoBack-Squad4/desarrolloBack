@@ -1,11 +1,11 @@
-const Countries = require('../database/models/countries')
+const models = require('../database/models')
 
 class CountriesServices {
 
   constructor() {
   }
   async getAllCountries() {
-    let country = await Countries().findAll()
+    let country = await models.Countries().findAll()
     return country
   }
 }

@@ -1,4 +1,4 @@
-const publicationsType = require('../database/models/publications_type')
+const models = require('../database/models')
 
 class publicationsTypeServices {
 
@@ -7,7 +7,7 @@ class publicationsTypeServices {
   }
 
   async findAllPublicationsType() {
-    let publicationType = await publicationsType().findAll()
+    let publicationType = await models.Publications_type().findAll()
     return publicationType
   }
 

@@ -1,7 +1,8 @@
 const uuid4 = require('uuid')
-const Publications = require('../database/models/publications')
+const models = require('../database/models')
 const { Op } = require('sequelize')
 const { CustomError } = require('../utils/custom-error')
+
 
 class PublicationsServices {
 
@@ -28,14 +29,14 @@ class PublicationsServices {
     //Necesario para el findAndCountAll de Sequelize
     options.distinct = true
 
-    const publications = await Publications().findAndCountAll(options)
+    const publications = await models.Publications().findAndCountAll(options)
     return publications
   }
 
   async createPublication(obj) {
-    const transaction = await Publications().sequelize.transaction()
+    const transaction = await models.Publications().sequelize.transaction()
     try {
-      let newPublication = await Publications().create({
+      let newPublication = await models.Publications().create({
         id: uuid4(),
         profile_id: obj.profile_id,
         publication_type_id: obj.publication_type_id,
@@ -56,7 +57,7 @@ class PublicationsServices {
   }
 
   async getPublicationOr404(id) {
-    let publication = await Publications().findByPk(id)
+    let publication = await models.Publications().findByPk(id)
 
     if (!publication) throw new CustomError('Not found Publication', 404, 'Not Found')
 
@@ -64,20 +65,20 @@ class PublicationsServices {
   }
 
   async getAllPublications() {
-    let publication = await Publications().findAll()
+    let publication = await models.Publications().findAll()
     return publication
   }
 
 
   async getPublication(id) {
-    let publication = await Publications().findByPk(id, { raw: true })
+    let publication = await models.Publications().findByPk(id, { raw: true })
     return publication
   }
 
   async updatePublication(id, obj) {
-    const transaction = await Publications().sequelize.transaction()
+    const transaction = await models.Publications().sequelize.transaction()
     try {
-      let publications = await Publications().findByPk(id)
+      let publications = await models.Publications().findByPk(id)
 
       if (!publications) throw new CustomError('Not found publications', 404, 'Not Found')
 
@@ -102,9 +103,9 @@ class PublicationsServices {
   }
 
   async removePublication(id) {
-    const transaction = await Publications().sequelize.transaction()
+    const transaction = await models.Publications().sequelize.transaction()
     try {
-      let publication = await Publications().findByPk(id)
+      let publication = await models.Publications().findByPk(id)
 
       if (!publication) throw new CustomError('Not found publication', 404, 'Not Found')
 

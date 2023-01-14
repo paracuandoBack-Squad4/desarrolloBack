@@ -4,7 +4,7 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     const transaction = await queryInterface.sequelize.transaction()
     try {
-      await queryInterface.createTable('Publications_types', {
+      await queryInterface.createTable('Publications_type', {
         id: {
           allowNull: false,
           autoIncrement: true,

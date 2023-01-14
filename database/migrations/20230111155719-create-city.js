@@ -6,7 +6,7 @@ module.exports = {
     try {
 
 
-      await queryInterface.createTable('Cities', {
+      await queryInterface.createTable('City', {
         id: {
           allowNull: false,
           autoIncrement: true,

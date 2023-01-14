@@ -10,7 +10,7 @@ module.exports = {
           allowNull: false,
           autoIncrement: true,
           primaryKey: true,
-          type: Sequelize.INTEGER
+          type: Sequelize.BIGINT
         },
         first_name: {
           type: Sequelize.STRING,
@@ -41,10 +41,12 @@ module.exports = {
           type: Sequelize.DATE,
           validate: {
             isDate: true
-          }
+          },
+          allowNull: true
         },
         token: {
-          type: Sequelize.STRING
+          type: Sequelize.STRING,
+          allowNull: true
         },
         createdAt: {
           allowNull: false,

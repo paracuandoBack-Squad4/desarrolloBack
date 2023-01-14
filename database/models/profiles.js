@@ -9,11 +9,11 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Profiles.belongsTo(models.roles, { as: 'Roles', foreignKey: 'role_id' })
-      Profiles.belongsTo(models.users, { as: 'Users', foreignKey: 'user_id' })
-      Profiles.belongsTo(models.countries, { as: 'Countries', foreignKey: 'country_id' })
-      Profiles.hasMany(models.publications, { as: 'Publications', foreignKey: 'profile_id' })
-      Profiles.hasMany(models.votes, { as: 'Votes', foreignKey: 'profile_id' })
+      Profiles.belongsTo(models.Roles, { as: 'Roles', foreignKey: 'role_id' })
+      Profiles.belongsTo(models.Users, { as: 'Users', foreignKey: 'user_id' })
+      Profiles.belongsTo(models.Countries, { as: 'Countries', foreignKey: 'country_id' })
+      Profiles.hasMany(models.Publications, { as: 'Publications', foreignKey: 'profile_id' })
+      Profiles.hasMany(models.Votes, { as: 'Votes', foreignKey: 'profile_id' })
     }
   }
   Profiles.init({

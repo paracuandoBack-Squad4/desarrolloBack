@@ -1,6 +1,7 @@
 const UsersService = require('../services/users.services')
 const { getPagination, getPagingData } = require('../utils/sequelize-utils')
 
+
 const usersService = new UsersService()
 
 const getUsers = async (request, response, next) => {
@@ -21,19 +22,27 @@ const getUsers = async (request, response, next) => {
   }
 }
 
+// const addUser = async (request, response) => {
+//   let { first_name, last_name, email, username, password } = request.body
+//   if (first_name && last_name && email && username && password) {
+//     await usersService.createUser({ first_name, last_name, email, username, password })
+//       .then(data => response.status(200).json(data))
+//       .catch(err => response.status(400).json({ message: err }))
+//   }
+//   else {
+//     response.status(400).json({ fields: { message: 'string' } })
+//   }
+// }
 const addUser = async (request, response, next) => {
-  let { first_name, last_name, email, username, password } = request.body
-  if (first_name && last_name && email && username && password) {
-    let user = await usersService.createUser({ first_name, last_name, email, username, password })
-      .then(data => response.status(200).json(data))
-      .catch(err => response.status(400).json({ message: err }))
+  try {
+    let { id, firstName, lastName, email, username, password } = request.body
+    let user = await usersService.createUser({ id, firstName, lastName, email, username, password })
+    return response.status(201).json({ results: user })
+  } catch (error) {
+    next(error)
   }
-  else {
-    response.status(400).json({ fields: { message: 'string' } })
-  }
-
-
 }
+
 
 const getUser = async (request, response, next) => {
   try {
