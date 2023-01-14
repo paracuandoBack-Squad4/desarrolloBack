@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     image_url: DataTypes.STRING,
     code_phone: DataTypes.INTEGER,
     phone: DataTypes.INTEGER,
-    country_id: DataTypes.INTEGER
+    country_id: DataTypes.BIGINT
   }, {
     sequelize,
     modelName: 'Profiles',
