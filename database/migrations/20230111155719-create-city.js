@@ -16,7 +16,7 @@ module.exports = {
         state_id: {
           type: Sequelize.BIGINT,
           references: {
-            model: 'State',
+            model: 'States',
             key: 'id'
           }
         },
