@@ -37,7 +37,7 @@ module.exports = {
   async down(queryInterface, Sequelize) {
     const transaction = await queryInterface.sequelize.transaction()
     try {
-      await queryInterface.dropTable('Publications_types', { transaction })
+      await queryInterface.dropTable('Publications_type', { transaction })
       await transaction.commit()
     } catch (error) {
       await transaction.rollback()

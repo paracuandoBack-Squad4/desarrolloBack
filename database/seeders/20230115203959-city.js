@@ -5,19 +5,14 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     const transaction = await queryInterface.sequelize.transaction()
     try {
-      await queryInterface.bulkInsert('Roles', [
+      await queryInterface.bulkInsert('City', [
         {
           id: 1,
-          name: 'public',
+          state_id: 1,
+          name: 'Lima',
           created_at: new Date(),
           updated_at: new Date()
         },
-        {
-          id: 2,
-          name: 'admin',
-          created_at: new Date(),
-          updated_at: new Date()
-        }
       ], { transaction })
 
       await transaction.commit()
@@ -30,9 +25,9 @@ module.exports = {
   async down(queryInterface, Sequelize) {
     const transaction = await queryInterface.sequelize.transaction()
     try {
-      await queryInterface.bulkDelete('roles', {
+      await queryInterface.bulkDelete('City', {
         name: {
-          [Op.or]: ['admin', 'public']
+          [Op.or]: ['Lima']
         }
       }, { transaction })
       await transaction.commit()
