@@ -6,12 +6,14 @@ const {
   addUser,
   getUser,
   updateUser,
-  removeUser } = require('../controllers/users.controllers')
+  myPublications,
+  myVotes } = require('../controllers/users.controllers')
 
-router.get('/', getUsers)
-router.post('/', addUser)
-router.get('/:id', getUser)
-router.patch('/:id', updateUser)
-router.delete('/:id', removeUser)
+router.get('/user', getUsers)
+router.post('/sign-up', addUser)
+router.get('/user/:user_id', getUser)
+router.patch('/user/:user_id', updateUser)
+router.get('/user/:id/publications', myPublications)
+router.get('/user/:id/votes', myVotes)
 
 module.exports = router

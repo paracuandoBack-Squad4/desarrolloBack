@@ -5,7 +5,7 @@ class StateServices {
   constructor() {
   }
   async getAllStates() {
-    let state = await models.State().findAll()
+    let state = await models.State.findAll()
     return state
   }
 }

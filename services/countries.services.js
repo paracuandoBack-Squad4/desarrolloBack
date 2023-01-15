@@ -5,7 +5,7 @@ class CountriesServices {
   constructor() {
   }
   async getAllCountries() {
-    let country = await models.Countries().findAll()
+    let country = await models.Countries.findAll()
     return country
   }
 }

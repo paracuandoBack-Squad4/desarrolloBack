@@ -102,23 +102,25 @@ class UsersService {
     }
   }
 
-  async removeUser(id) {
-    const transaction = await models.Users.sequelize.transaction()
-    try {
-      let user = await models.Users.findByPk(id)
-
-      if (!user) throw new CustomError('Not found user', 404, 'Not Found')
-
-      await user.destroy({ transaction })
-
-      await transaction.commit()
-
-      return user
-    } catch (error) {
-      await transaction.rollback()
-      throw error
-    }
+  async getPublicationsOfUser(id) {
+    let profileOfUser = await models.Profiles.findOne({ where: { user_id: id } })
+    let publicationsOfProfile = await models.Publications.findAll({ where: { profile_id: profileOfUser.id } })
+    return publicationsOfProfile
   }
+
+  async getVotesOfUser(id) {
+    let profileOfUser = await models.Profiles.findOne({ where: { user_id: id } })
+    let votesOfProfile = await models.Votes.findAll({ where: { profile_id: profileOfUser.id } })
+    return votesOfProfile
+  }
+
+
+
+
+
+
+
+
 
 }
 

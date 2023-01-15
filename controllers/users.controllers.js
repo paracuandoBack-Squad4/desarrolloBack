@@ -35,8 +35,8 @@ const getUsers = async (request, response, next) => {
 // }
 const addUser = async (request, response, next) => {
   try {
-    let { id, firstName, lastName, email, username, password } = request.body
-    let user = await usersService.createUser({ id, firstName, lastName, email, username, password })
+    let { firstName, lastName, email, username, password } = request.body
+    let user = await usersService.createUser({ firstName, lastName, email, username, password })
     return response.status(201).json({ results: user })
   } catch (error) {
     next(error)
@@ -46,7 +46,7 @@ const addUser = async (request, response, next) => {
 
 const getUser = async (request, response, next) => {
   try {
-    let { id } = request.params
+    let id = request.params.user_id
     let users = await usersService.getUserOr404(id)
     return response.json({ results: users })
   } catch (error) {
@@ -56,7 +56,7 @@ const getUser = async (request, response, next) => {
 
 const updateUser = async (request, response, next) => {
   try {
-    let { id } = request.params
+    let id = request.params.user_id
     let { first_name, last_name, email, username, password } = request.body
     let user = await usersService.updateUser(id, { first_name, last_name, email, username, password })
     return response.json({ results: user })
@@ -65,11 +65,21 @@ const updateUser = async (request, response, next) => {
   }
 }
 
-const removeUser = async (request, response, next) => {
+const myPublications = async (request, response, next) => {
   try {
-    let { id } = request.params
-    let user = await usersService.removeUser(id)
-    return response.json({ results: user, message: 'removed' })
+    let id = request.user.id
+    let publications = await usersService.getPublicationsOfUser(id)
+    return response.json({ results: publications })
+  } catch (error) {
+    next(error)
+  }
+}
+
+const myVotes = async (request, response, next) => {
+  try {
+    let id = request.user.id
+    let votes = await usersService.getVotesOfUser(id)
+    return response.json({ results: votes })
   } catch (error) {
     next(error)
   }
@@ -80,5 +90,6 @@ module.exports = {
   addUser,
   getUser,
   updateUser,
-  removeUser
+  myPublications,
+  myVotes
 }

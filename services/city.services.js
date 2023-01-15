@@ -6,7 +6,7 @@ class CitiesServices {
   constructor() {
   }
   async getAllCities() {
-    let city = await models.City().findAll()
+    let city = await models.City.findAll()
     return city
   }
 }

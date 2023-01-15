@@ -10,9 +10,9 @@ class ProfilesServices {
   }
 
   async updateProfile(id, obj) {
-    const transaction = await Profiles().sequelize.transaction()
+    const transaction = await Profiles.sequelize.transaction()
     try {
-      let profile = await models.Profiles().findByPk(id)
+      let profile = await models.Profiles.findByPk(id)
 
       if (!profile) throw new CustomError('Not found profile', 404, 'Not Found')
 
