@@ -15,12 +15,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   City.init({
-    country_id: DataTypes.BIGINT,
+    state_id: DataTypes.BIGINT,
     name: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'City',
-    tableName: 'city',
+    tableName: 'City',
     underscored: true,
     timestamps: true,
     scopes: {

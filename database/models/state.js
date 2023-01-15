@@ -20,6 +20,18 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'State',
+    tableName: 'State',
+    underscored: true,
+    timestamps: true,
+
+    scopes: {
+      public_view: {
+        attributes: ['name', 'country_id']
+      },
+      no_timestamps: {
+        attributes: { exclude: ['created_at', 'updated_at'] }
+      },
+    },
   });
   return State;
 };

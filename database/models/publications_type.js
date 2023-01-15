@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Publications_type',
-    tableName: 'publications_type',
+    tableName: 'Publications_type',
     underscored: true,
     timestamps: true,
     scopes: {

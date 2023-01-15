@@ -36,19 +36,17 @@ class UsersService {
   async createUser(obj) {
     const transaction = await models.Users.sequelize.transaction()
     try {
-      let newUser = await models.Users.create({
-        id: obj.id,
+      const newUser = await models.Users.create({
         first_name: obj.first_name,
         last_name: obj.last_name,
         email: obj.email,
         username: obj.username,
-        password: obj.password,
+        password: hash(obj.password),
       }, { transaction })
       await transaction.commit()
       return newUser
     } catch (error) {
       await transaction.rollback()
-
       throw error
     }
   }

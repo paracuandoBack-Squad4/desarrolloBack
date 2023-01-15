@@ -16,7 +16,7 @@ module.exports = {
         state_id: {
           type: Sequelize.BIGINT,
           references: {
-            model: 'States',
+            model: 'State',
             key: 'id'
           }
         },
@@ -44,7 +44,7 @@ module.exports = {
   async down(queryInterface, Sequelize) {
     const transaction = await queryInterface.sequelize.transaction()
     try {
-      await queryInterface.dropTable('Cities', { transaction })
+      await queryInterface.dropTable('City', { transaction })
       await transaction.commit()
     } catch (error) {
       await transaction.rollback()

@@ -36,7 +36,7 @@ if (process.env.NODE_ENV === 'production') {
 /*
 Accept Json & form-urlencoded
 */
-// app.use(express.json());
+app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 /*

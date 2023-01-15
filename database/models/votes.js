@@ -20,6 +20,18 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Votes',
+    tableName: 'Votes',
+    underscored: true,
+    timestamps: true,
+
+    scopes: {
+      public_view: {
+        attributes: ['publication_id', 'profile_id']
+      },
+      no_timestamps: {
+        attributes: { exclude: ['created_at', 'updated_at'] }
+      },
+    },
   });
   return Votes;
 };

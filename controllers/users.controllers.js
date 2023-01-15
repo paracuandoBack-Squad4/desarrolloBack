@@ -22,26 +22,37 @@ const getUsers = async (request, response, next) => {
   }
 }
 
-// const addUser = async (request, response) => {
-//   let { first_name, last_name, email, username, password } = request.body
-//   if (first_name && last_name && email && username && password) {
-//     await usersService.createUser({ first_name, last_name, email, username, password })
-//       .then(data => response.status(200).json(data))
-//       .catch(err => response.status(400).json({ message: err }))
-//   }
-//   else {
-//     response.status(400).json({ fields: { message: 'string' } })
-//   }
-// }
-const addUser = async (request, response, next) => {
-  try {
-    let { firstName, lastName, email, username, password } = request.body
-    let user = await usersService.createUser({ firstName, lastName, email, username, password })
-    return response.status(201).json({ results: user })
-  } catch (error) {
-    next(error)
+const addUser = (request, response) => {
+  const { first_name, last_name, email, username, password } = request.body
+  if (first_name && last_name && email && username && password) {
+    usersService.createUser({ first_name, last_name, email, username, password })
+      .then(data => response.status(201).json(data))
+      .catch(err => response.status(404).json({ message: err.message }))
+  }
+  else {
+    response.status(400).json({
+      fields: {
+        message: {
+          first_name: 'STRING',
+          last_name: 'STRING',
+          email: 'example@example.com',
+          username: 'STRING',
+          password: 'STRING'
+        }
+      }
+    })
   }
 }
+
+// const addUser = async (request, response, next) => {
+//   try {
+//     let { firstName, lastName, email, username, password } = request.body
+//     let user = await usersService.createUser({ firstName, lastName, email, username, password })
+//     return response.status(201).json({ results: user })
+//   } catch (error) {
+//     next(error)
+//   }
+// }
 
 
 const getUser = async (request, response, next) => {
