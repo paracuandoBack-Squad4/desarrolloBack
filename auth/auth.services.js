@@ -1,16 +1,18 @@
 const jwt = require('jsonwebtoken')
-const checkUser = require('./auth.controllers')
+const verifyUser = require('./auth.controllers')
 require('dotenv')
 
 const postLogin = (request, response) => {
 
   const { email, password } = request.body
   if (email && password) {
-    checkUser(email, password)
+    verifyUser(email, password)
       .then(data => {
         if (data) {
           const token = jwt.sign({
             id: data.id,
+            first_name: data.first_name,
+            last_name: data.last_name,
             email: data.email
           }, process.env.JWT_SECRET)
           response.status(200).json({ message: 'Correct Credentials', token })

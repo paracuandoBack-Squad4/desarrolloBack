@@ -8,6 +8,10 @@ const routesPublications = require('./publications.route')
 const routesPublicationsType = require('./publicatios_type.route')
 const routesLogin = require('../auth/auth.route')
 const routerRoles = require('./roles.route')
+const passport = require('passport')
+const { addUser } = require('../controllers/users.controllers')
+require('../middlewares/auth.middleware')(passport)
+
 
 
 function routerModels(app) {
@@ -16,14 +20,15 @@ function routerModels(app) {
   app.use('/api/v1', router)
 
   router.use('/login', routesLogin)
-  router.use('/', routesUsers)
-  router.use('/profiles', routesProfiles)
-  router.use('/state', routesState)
-  router.use('/countries', routesCountries)
-  router.use('/city', routesCities)
-  router.use('/publications', routesPublications)
-  router.use('/publications_type', routesPublicationsType)
-  router.use('/roles', routerRoles)
+  router.use('/sign-up', addUser)
+  router.use('/user', passport.authenticate('jwt', { session: false }), routesUsers)
+  router.use('/profiles', passport.authenticate('jwt', { session: false }), routesProfiles)
+  router.use('/state', passport.authenticate('jwt', { session: false }), routesState)
+  router.use('/countries', passport.authenticate('jwt', { session: false }), routesCountries)
+  router.use('/city', passport.authenticate('jwt', { session: false }), routesCities)
+  router.use('/publications', passport.authenticate('jwt', { session: false }), routesPublications)
+  router.use('/publications_type', passport.authenticate('jwt', { session: false }), routesPublicationsType)
+  router.use('/roles', passport.authenticate('jwt', { session: false }), routerRoles)
 }
 
 module.exports = routerModels

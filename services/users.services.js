@@ -42,7 +42,7 @@ class UsersService {
         last_name: obj.last_name,
         email: obj.email,
         username: obj.username,
-        password: hash(obj.password),
+        password: obj.password,
       }, { transaction })
       await transaction.commit()
       return newUser
