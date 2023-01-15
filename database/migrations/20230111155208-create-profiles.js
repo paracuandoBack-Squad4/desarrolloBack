@@ -80,7 +80,7 @@ module.exports = {
   async down(queryInterface, Sequelize) {
     const transaction = await queryInterface.sequelize.transaction()
     try {
-      await queryInterface.dropTable('Profiles')
+      await queryInterface.dropTable('Profiles', { transaction })
       await transaction.commit()
     } catch (error) {
       await transaction.rollback()

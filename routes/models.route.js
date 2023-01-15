@@ -28,7 +28,7 @@ function routerModels(app) {
   router.use('/city', passport.authenticate('jwt', { session: false }), routesCities)
   router.use('/publications', passport.authenticate('jwt', { session: false }), routesPublications)
   router.use('/publications_type', passport.authenticate('jwt', { session: false }), routesPublicationsType)
-  router.use('/roles', passport.authenticate('jwt', { session: false }), routerRoles)
+  router.use('/roles', routerRoles)
 }
 
 module.exports = routerModels

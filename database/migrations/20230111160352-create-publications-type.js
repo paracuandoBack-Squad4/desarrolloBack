@@ -19,11 +19,13 @@ module.exports = {
         },
         createdAt: {
           allowNull: false,
-          type: Sequelize.DATE
+          type: Sequelize.DATE,
+          field: 'created_at'
         },
         updatedAt: {
           allowNull: false,
-          type: Sequelize.DATE
+          type: Sequelize.DATE,
+          field: 'updated_at'
         }
       }, { transaction })
       await transaction.commit()
@@ -35,7 +37,7 @@ module.exports = {
   async down(queryInterface, Sequelize) {
     const transaction = await queryInterface.sequelize.transaction()
     try {
-      await queryInterface.dropTable('Publications_types')
+      await queryInterface.dropTable('Publications_types', { transaction })
       await transaction.commit()
     } catch (error) {
       await transaction.rollback()

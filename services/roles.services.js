@@ -6,8 +6,8 @@ class RolesServices {
   constructor() {
   }
   async getAllCities() {
-    let roles = await models.Roles.findAll()
-    return roles
+    let Roles = await models.Roles.findAll()
+    return Roles
   }
 }
 

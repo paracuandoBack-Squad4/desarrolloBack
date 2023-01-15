@@ -12,15 +12,18 @@ module.exports = {
           type: Sequelize.BIGINT
         },
         name: {
+          allowNull: false,
           type: Sequelize.STRING
         },
         createdAt: {
           allowNull: false,
-          type: Sequelize.DATE
+          type: Sequelize.DATE,
+          field: 'created_at'
         },
         updatedAt: {
           allowNull: false,
-          type: Sequelize.DATE
+          type: Sequelize.DATE,
+          field: 'updated_at'
         }
       }, { transaction })
       await transaction.commit()
@@ -32,7 +35,7 @@ module.exports = {
   async down(queryInterface, Sequelize) {
     const transaction = await queryInterface.sequelize.transaction()
     try {
-      await queryInterface.dropTable('Roles')
+      await queryInterface.dropTable('Roles', { transaction })
       await transaction.commit()
     } catch (error) {
       await transaction.rollback()
