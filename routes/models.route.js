@@ -6,7 +6,6 @@ const routesState = require('./state.route')
 const routesCities = require('./city.route')
 const routesPublications = require('./publications.route')
 const routesPublicationsType = require('./publicatios_type.route')
-const routesVotes = require('./votes.route')
 const routesLogin = require('../auth/auth.route')
 
 
@@ -23,8 +22,6 @@ function routerModels(app) {
   router.use('/city', routesCities)
   router.use('/publications', routesPublications)
   router.use('/publications_type', routesPublicationsType)
-  router.use('/votes', routesVotes)
-
 }
 
 module.exports = routerModels

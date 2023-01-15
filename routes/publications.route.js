@@ -5,13 +5,13 @@ const {
   getPublications,
   addPublication,
   getPublication,
-  updatePublication,
-  removePublication } = require('../controllers/publications.controllers')
+  removePublication,
+  getVotesByPublication } = require('../controllers/publications.controllers')
 
 router.get('/', getPublications)
 router.post('/', addPublication)
-router.get('/:id', getPublication)
-router.patch('/:id', updatePublication)
-router.delete('/:id', removePublication)
+router.get('/:publication_id', getPublication)
+router.delete('/:publication_id', removePublication)
+router.get('/:publication_id/vote', getVotesByPublication)
 
 module.exports = router

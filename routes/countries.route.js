@@ -2,11 +2,11 @@ const express = require('express')
 const router = express.Router()
 
 const {
-  getCountries
+  getAllCountries
 } = require('../controllers/countries.controllers')
 
 
-router.get('/', getCountries)
+router.get('/', getAllCountries)
 
 
 

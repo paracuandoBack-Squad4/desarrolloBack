@@ -2,14 +2,13 @@ const StatesServices = require('../services/state.services')
 
 const StatesService = new StatesServices()
 
-const getStateByCountry = async (request, response, next) => {
+const getAllStates = async (request, response, next) => {
   try {
-    let { id } = request.params
-    let states = await StatesService.getCity(id)
+    let states = await StatesService.getAllStates()
     return response.json({ results: states })
   } catch (error) {
     next(error)
   }
 }
 
-module.exports = { getStateByCountry }
+module.exports = { getAllStates }

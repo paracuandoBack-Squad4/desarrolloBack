@@ -34,20 +34,18 @@ const addPublication = async (request, response, next) => {
 
 const getPublication = async (request, response, next) => {
   try {
-    let { id } = request.params
+    let id = request.params.publication_id
     let publication = await publicationsServices.getPublicationOr404(id)
     return response.json({ results: publication })
   } catch (error) {
     next(error)
   }
 }
-
-const updatePublication = async (request, response, next) => {
+const getVotesByPublication = async (request, response, next) => {
   try {
-    let { id } = request.params
-    let { profile_id, publication_type_id, title, description, content, picture, city_id, image_url } = request.body
-    let user = await publicationsServices.updatePublication(id, { profile_id, publication_type_id, title, description, content, picture, city_id, image_url })
-    return response.json({ results: user })
+    let id = request.params.publication_id
+    let publication = await publicationsServices.getVotesByPublicationId(id)
+    return response.json({ results: publication })
   } catch (error) {
     next(error)
   }
@@ -55,7 +53,7 @@ const updatePublication = async (request, response, next) => {
 
 const removePublication = async (request, response, next) => {
   try {
-    let { id } = request.params
+    let id = request.params.publication_id
     let user = await publicationsServices.removePublication(id)
     return response.json({ results: user, message: 'removed' })
   } catch (error) {
@@ -68,6 +66,6 @@ module.exports = {
   addPublication,
   getPublications,
   getPublication,
-  updatePublication, 
-  removePublication
+  removePublication,
+  getVotesByPublication
 }

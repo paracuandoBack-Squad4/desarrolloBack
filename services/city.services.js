@@ -5,12 +5,8 @@ class CitiesServices {
 
   constructor() {
   }
-  async getCity(id) {
-    let city = await models.City().findAll({
-      where: {
-        state_id: id
-      }
-    })
+  async getAllCities() {
+    let city = await models.City().findAll()
     return city
   }
 }

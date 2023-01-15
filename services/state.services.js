@@ -4,12 +4,8 @@ class StateServices {
 
   constructor() {
   }
-  async getAllStates(id) {
-    let state = await models.State().findAll({
-      where: {
-        country_id: id
-      }
-    })
+  async getAllStates() {
+    let state = await models.State().findAll()
     return state
   }
 }
