@@ -14,7 +14,7 @@ module.exports = {
           type: Sequelize.UUID
         },
         user_id: {
-          type: Sequelize.BIGINT,
+          type: Sequelize.UUID,
           allowNull: false,
           foreignKey: true,
           references: {
@@ -35,18 +35,18 @@ module.exports = {
           onUpdate: 'CASCADE',
           onDelete: 'RESTRICT',
           defaultValue: 1
-
         },
         image_url: {
-          type: Sequelize.STRING
+          type: Sequelize.STRING,
+          allowNull: true
         },
         code_phone: {
           type: Sequelize.INTEGER,
-          allowNull: false
+          allowNull: true
         },
         phone: {
           type: Sequelize.INTEGER,
-          allowNull: false,
+          allowNull: true,
           unique: true
         },
         country_id: {
@@ -57,6 +57,7 @@ module.exports = {
             model: 'Countries',
             key: 'id'
           },
+          defaultValue: 1,
           onUpdate: 'CASCADE',
           onDelete: 'RESTRICT'
         },

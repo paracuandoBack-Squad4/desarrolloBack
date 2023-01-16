@@ -38,6 +38,7 @@ class UsersService {
     const transaction = await models.Users.sequelize.transaction()
     try {
       const newUser = await models.Users.create({
+        id: uuid4(),
         first_name: obj.first_name,
         last_name: obj.last_name,
         email: obj.email,
@@ -47,11 +48,6 @@ class UsersService {
       const newProfile = await models.Profiles.create({
         id: uuid4(),
         user_id: newUser.id,
-        role_id: 1,
-        code_phone: 51,
-        phone: 9840552,
-        country_id: 1,
-
       }, { transaction })
       await transaction.commit()
       return { newUser, newProfile }

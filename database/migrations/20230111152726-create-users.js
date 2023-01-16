@@ -6,11 +6,11 @@ module.exports = {
     const transaction = await queryInterface.sequelize.transaction()
     try {
       await queryInterface.createTable('Users', {
-        id: {
+        id: { // usando UUID
           allowNull: false,
-          autoIncrement: true,
+          defaultValue: Sequelize.UUIDV4,
           primaryKey: true,
-          type: Sequelize.BIGINT
+          type: Sequelize.UUID
         },
         first_name: {
           type: Sequelize.STRING,
