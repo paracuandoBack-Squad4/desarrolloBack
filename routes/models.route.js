@@ -1,6 +1,5 @@
 const express = require('express')
 const routesUsers = require('./users.route')
-const routesProfiles = require('./profiles.route')
 const routesCountries = require('./countries.route')
 const routesState = require('./state.route')
 const routesCities = require('./city.route')
@@ -22,13 +21,12 @@ function routerModels(app) {
   router.use('/login', routesLogin)
   router.post('/sign-up', addUser)
   router.use('/user', passport.authenticate('jwt', { session: false }), routesUsers)
-  router.use('/profiles', passport.authenticate('jwt', { session: false }), routesProfiles)
   router.use('/states', passport.authenticate('jwt', { session: false }), routesState)
   router.use('/countries', passport.authenticate('jwt', { session: false }), routesCountries)
   router.use('/cities', passport.authenticate('jwt', { session: false }), routesCities)
   router.use('/publications', passport.authenticate('jwt', { session: false }), routesPublications)
-  router.use('/publications_type', passport.authenticate('jwt', { session: false }), routesPublicationsType)
-  router.use('/roles', routerRoles)
+  router.use('/publications_types', passport.authenticate('jwt', { session: false }), routesPublicationsType)
+  router.use('/roles', passport.authenticate('jwt', { session: false }), routerRoles)
 }
 
 module.exports = routerModels

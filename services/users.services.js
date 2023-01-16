@@ -93,7 +93,7 @@ class UsersService {
         first_name: obj.first_name,
         last_name: obj.last_name,
         username: obj.username,
-        password: obj.password
+        email: obj.email,
       }, { transaction })
 
       await transaction.commit()
