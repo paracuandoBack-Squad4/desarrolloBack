@@ -93,8 +93,7 @@ class UsersService {
       let updatedUser = await user.update({
         first_name: obj.first_name,
         last_name: obj.last_name,
-        username: obj.username,
-        email: obj.email,
+        username: obj.username
       }, { transaction })
 
       await transaction.commit()

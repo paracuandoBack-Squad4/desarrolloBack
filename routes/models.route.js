@@ -4,11 +4,11 @@ const routesCountries = require('./countries.route')
 const routesState = require('./state.route')
 const routesCities = require('./city.route')
 const routesPublications = require('./publications.route')
-const routesPublicationsType = require('./publicatios_type.route')
+const routesPublicationsType = require('./publications_type.route')
 const routesLogin = require('../auth/auth.route')
 const routerRoles = require('./roles.route')
 const passport = require('passport')
-const { addUser } = require('../controllers/users.controllers')
+const { getUsers, addUser } = require('../controllers/users.controllers')
 require('../middlewares/auth.middleware')(passport)
 
 
@@ -19,6 +19,7 @@ function routerModels(app) {
   app.use('/api/v1', router)
 
   router.use('/login', routesLogin)
+  router.get('/users', getUsers)
   router.post('/sign-up', addUser)
   router.use('/user', passport.authenticate('jwt', { session: false }), routesUsers)
   router.use('/states', passport.authenticate('jwt', { session: false }), routesState)
