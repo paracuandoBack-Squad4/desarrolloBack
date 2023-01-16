@@ -65,6 +65,14 @@ const getUser = async (request, response, next) => {
   }
 }
 
+const getInfoUser = async (request, response) => {
+  let id = request.user.id
+  await usersService.getUserInformation(id)
+    .then(data => response.status(200).json(data))
+    .catch(err => response.status(400).json({ message: err.message }))
+}
+
+
 const updateUser = async (request, response, next) => {
   try {
     let id = request.params.user_id
@@ -102,5 +110,6 @@ module.exports = {
   getUser,
   updateUser,
   myPublications,
-  myVotes
+  myVotes,
+  getInfoUser
 }

@@ -8,7 +8,7 @@ const routesPublicationsType = require('./publications_type.route')
 const routesLogin = require('../auth/auth.route')
 const routerRoles = require('./roles.route')
 const passport = require('passport')
-const { getUsers, addUser } = require('../controllers/users.controllers')
+const { getUsers, addUser, getInfoUser } = require('../controllers/users.controllers')
 require('../middlewares/auth.middleware')(passport)
 
 
@@ -21,6 +21,7 @@ function routerModels(app) {
   router.use('/login', routesLogin)
   router.get('/users', getUsers)
   router.post('/sign-up', addUser)
+  router.get('/user-info', passport.authenticate('jwt', { session: false }), getInfoUser)
   router.use('/user', passport.authenticate('jwt', { session: false }), routesUsers)
   router.use('/states', passport.authenticate('jwt', { session: false }), routesState)
   router.use('/countries', passport.authenticate('jwt', { session: false }), routesCountries)

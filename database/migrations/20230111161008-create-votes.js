@@ -5,14 +5,9 @@ module.exports = {
     const transaction = await queryInterface.sequelize.transaction()
     try {
       await queryInterface.createTable('Votes', {
-        id: {
-          allowNull: false,
-          autoIncrement: true,
-          primaryKey: true,
-          type: Sequelize.BIGINT
-        },
         publication_id: {
           type: Sequelize.UUID,
+          primaryKey: true,
           references: {
             model: 'Publications',
             key: 'id'
@@ -21,6 +16,7 @@ module.exports = {
         },
         profile_id: {
           type: Sequelize.UUID,
+          primaryKey: true,
           references: {
             model: 'Profiles',
             key: 'id'

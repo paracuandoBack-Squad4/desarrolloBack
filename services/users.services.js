@@ -116,6 +116,17 @@ class UsersService {
   }
 
 
+  async getUserInformation(id) {
+    let user = await models.Users.findOne({ where: { id: id } })
+    return {
+      id: user.id,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      email: user.email
+    }
+  }
+
+
 
 
 

@@ -134,7 +134,6 @@ class PublicationsServices {
   }
 
   async findByPublicationAndProfile(id, publicationId) {
-
     const profileId = await models.Profiles.findOne({ where: { user_id: id } })
     const result = await models.Votes.findOne({
       where: {
@@ -144,7 +143,6 @@ class PublicationsServices {
     })
     return result
   }
-
 
 
 }
