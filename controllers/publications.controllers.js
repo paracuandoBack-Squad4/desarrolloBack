@@ -22,15 +22,37 @@ const getPublications = async (request, response, next) => {
   }
 }
 
-const addPublication = async (request, response, next) => {
-  try {
-    let { profile_id, publication_type_id, title, description, content, picture, city_id, image_url } = request.body
-    let publication = await publicationsServices.createPublication({ profile_id, publication_type_id, title, description, content, picture, city_id, image_url })
-    return response.status(201).json({ results: publication })
-  } catch (error) {
-    next(error)
+const addPublication = async (request, response) => {
+  let profile_id = request.user.id
+  let { publication_type_id, title, description, content, picture, city_id, image_url } = request.body
+  if (profile_id && publication_type_id && title && description && content && picture && city_id, image_url) {
+    await publicationsServices.createPublication(profile_id, { publication_type_id, title, description, content, picture, city_id, image_url })
+      .then(data => response.status(201).json(data))
+      .catch(err => response.status(400).json({ message: err.message }))
+  }
+  else {
+    response.status(400).json({
+      message: 'All fields are required', fields: {
+        publication_type_id: 'INTEGER',
+        title: 'STRING',
+        description: 'STRING',
+        content: 'STRING',
+        picture: 'STRING',
+        city_id: 'INTEGER',
+        image_url: 'STRING'
+      }
+    })
   }
 }
+// const addPublication = async (request, response, next) => {
+//   try {
+//     let { profile_id, publication_type_id, title, description, content, picture, city_id, image_url } = request.body
+//     let publication = await publicationsServices.createPublication({ profile_id, publication_type_id, title, description, content, picture, city_id, image_url })
+//     return response.status(201).json({ results: publication })
+//   } catch (error) {
+//     next(error)
+//   }
+// }
 
 const getPublication = async (request, response, next) => {
   try {

@@ -1,4 +1,4 @@
-const uuid4 = require('uuid')
+const { v4: uuid4 } = require('uuid')
 const models = require('../database/models')
 const { Op, where } = require('sequelize')
 const { CustomError } = require('../utils/custom-error')
@@ -30,12 +30,13 @@ class PublicationsServices {
     return publications
   }
 
-  async createPublication(obj) {
+  async createPublication(id, obj) {
     const transaction = await models.Publications.sequelize.transaction()
     try {
+      let profileId = await models.Profiles.findOne({ where: { user_id: id } })
       let newPublication = await models.Publications.create({
         id: uuid4(),
-        profile_id: obj.profile_id,
+        profile_id: profileId.id,
         publication_type_id: obj.publication_type_id,
         title: obj.title,
         description: obj.description,
@@ -44,13 +45,18 @@ class PublicationsServices {
         city_id: obj.city_id,
         image_url: obj.image_url
       }, { transaction })
-
       await transaction.commit()
       return newPublication
     } catch (error) {
       await transaction.rollback()
       throw error
     }
+  }
+
+
+  async getProfileByUserId(id) {
+    let profileId = await models.Profiles.findOne({ where: { user_id: id } })
+    return profileId.id
   }
 
   async getPublicationOr404(id) {
