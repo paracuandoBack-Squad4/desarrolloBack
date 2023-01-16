@@ -36,7 +36,6 @@ class UsersService {
 
   async createUser(obj) {
     const transaction = await models.Users.sequelize.transaction()
-    const transaction2 = await models.Profiles.sequelize.transaction()
     try {
       const newUser = await models.Users.create({
         id: uuid4(),
@@ -49,10 +48,8 @@ class UsersService {
       const newProfile = await models.Profiles.create({
         id: uuid4(),
         user_id: newUser.id,
-      }, { transaction2 })
+      }, { transaction })
       await transaction.commit()
-      await transaction2.commit()
-
       return { newUser, newProfile }
     } catch (error) {
       await transaction.rollback()

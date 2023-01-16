@@ -106,7 +106,7 @@ class PublicationsServices {
       const profileId = await models.Profiles.findOne({ where: { user_id: id } })
       let vote = await models.Votes.create({
         publication_id: publicationId,
-        profile_id: profileId
+        profile_id: profileId.id
       }, { transaction })
       await transaction.commit()
       return vote
@@ -122,7 +122,7 @@ class PublicationsServices {
       let vote = await models.Votes.destroy({
         where: {
           publication_id: publicationId,
-          profile_id: profileId
+          profile_id: profileId.id
         }
       }, { transaction })
       await transaction.commit()
@@ -132,6 +132,20 @@ class PublicationsServices {
       await transaction.rollback()
     }
   }
+
+  async findByPublicationAndProfile(id, publicationId) {
+
+    const profileId = await models.Profiles.findOne({ where: { user_id: id } })
+    const result = await models.Votes.findOne({
+      where: {
+        profile_id: profileId.id,
+        publication_id: publicationId
+      }
+    })
+    return result
+  }
+
+
 
 }
 
