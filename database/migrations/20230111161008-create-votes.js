@@ -16,14 +16,16 @@ module.exports = {
           references: {
             model: 'Publications',
             key: 'id'
-          }
+          },
+          allowNull: false
         },
         profile_id: {
           type: Sequelize.UUID,
           references: {
             model: 'Profiles',
             key: 'id'
-          }
+          },
+          allowNull: false
         },
         createdAt: {
           allowNull: false,

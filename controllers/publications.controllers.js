@@ -9,7 +9,7 @@ const getPublications = async (request, response, next) => {
     let query = request.query
     let { page, size } = query
 
-    const { limit, offset } = getPagination(page, size, '10')
+    const { limit, offset } = getPagination(page, size, '2')
     query.limit = limit
     query.offset = offset
 
@@ -83,11 +83,30 @@ const removePublication = async (request, response, next) => {
   }
 }
 
+const addVotesByPublication = (request, response) => {
+  const id = request.user.id
+  const publicationId = request.params.publication_id
+  publicationsServices.postVotesByPublication(id, publicationId)
+    .then(data => response.status(201).json(data))
+    .catch(err => response.status(400).json({ message: err.message }))
+
+}
+const deleteVotesByPublication = (request, response) => {
+  const id = request.user.id
+  const publicationId = request.params.publication_id
+  publicationsServices.removeVotesByPublication(id, publicationId)
+    .then(data => response.status(201).json(data))
+    .catch(err => response.status(400).json({ message: err.message }))
+
+}
+
 
 module.exports = {
   addPublication,
   getPublications,
   getPublication,
   removePublication,
-  getVotesByPublication
+  getVotesByPublication,
+  addVotesByPublication,
+  deleteVotesByPublication
 }

@@ -100,6 +100,39 @@ class PublicationsServices {
     return votes
   }
 
+  async postVotesByPublication(id, publicationId) {
+    const transaction = await models.Votes.sequelize.transaction()
+    try {
+      const profileId = await models.Profiles.findOne({ where: { user_id: id } })
+      let vote = await models.Votes.create({
+        publication_id: publicationId,
+        profile_id: profileId
+      }, { transaction })
+      await transaction.commit()
+      return vote
+    }
+    catch (error) {
+      await transaction.rollback()
+    }
+  }
+  async removeVotesByPublication(id, publicationId) {
+    const transaction = await models.Votes.sequelize.transaction()
+    try {
+      const profileId = await models.Profiles.findOne({ where: { user_id: id } })
+      let vote = await models.Votes.destroy({
+        where: {
+          publication_id: publicationId,
+          profile_id: profileId
+        }
+      }, { transaction })
+      await transaction.commit()
+      return vote
+    }
+    catch (error) {
+      await transaction.rollback()
+    }
+  }
+
 }
 
 module.exports = PublicationsServices
