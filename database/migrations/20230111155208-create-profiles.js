@@ -33,7 +33,8 @@ module.exports = {
             key: 'id'
           },
           onUpdate: 'CASCADE',
-          onDelete: 'RESTRICT'
+          onDelete: 'RESTRICT',
+          defaultValue: 1
 
         },
         image_url: {
@@ -58,7 +59,6 @@ module.exports = {
           },
           onUpdate: 'CASCADE',
           onDelete: 'RESTRICT'
-
         },
         createdAt: {
           allowNull: false,

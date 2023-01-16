@@ -2,6 +2,7 @@ const { Op } = require('sequelize')
 const { CustomError } = require('../utils/custom-error')
 const { hash } = require('../utils/Crypto')
 const models = require('../database/models/index')
+const { v4: uuid4 } = require('uuid')
 
 
 class UsersService {
@@ -43,8 +44,17 @@ class UsersService {
         username: obj.username,
         password: hash(obj.password),
       }, { transaction })
+      const newProfile = await models.Profiles.create({
+        id: uuid4(),
+        user_id: newUser.id,
+        role_id: 1,
+        code_phone: 51,
+        phone: 9840552,
+        country_id: 1,
+
+      }, { transaction })
       await transaction.commit()
-      return newUser
+      return { newUser, newProfile }
     } catch (error) {
       await transaction.rollback()
       throw error
