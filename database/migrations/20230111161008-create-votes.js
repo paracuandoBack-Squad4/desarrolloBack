@@ -12,7 +12,9 @@ module.exports = {
             model: 'Publications',
             key: 'id'
           },
-          allowNull: false
+          onDelete: 'CASCADE',
+          onUpdate: 'CASCADE',
+          allowNull: false,
         },
         profile_id: {
           type: Sequelize.UUID,
@@ -21,6 +23,8 @@ module.exports = {
             model: 'Profiles',
             key: 'id'
           },
+          onDelete: 'CASCADE',
+          onUpdate: 'CASCADE',
           allowNull: false
         },
         createdAt: {

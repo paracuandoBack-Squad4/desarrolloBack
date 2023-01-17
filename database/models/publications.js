@@ -33,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: true,
     scopes: {
       public_view: {
-        attributes: ['title', 'description', 'content', 'picture', 'image_url']
+        attributes: ['id', 'profile_id', 'publication_type_id', 'title', 'description', 'content', 'picture', 'city_id', 'image_url']
       },
       no_timestamps: {
         attributes: { exclude: ['created_at', 'updated_at'] }
