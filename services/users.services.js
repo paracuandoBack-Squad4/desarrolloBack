@@ -99,11 +99,14 @@ class UsersService {
         last_name: obj.last_name,
         username: obj.username
       }, { transaction })
-      let updatedProfile = await profile.update({
-        image_url: obj.profile.image_url,
-        code_phone: obj.profile.code_phone,
-        phone: obj.profile.phone
-      }, { transaction })
+      let updatedProfile
+      if (Object.keys(obj).length == 5) {
+        updatedProfile = await profile.update({
+          image_url: obj.profile.image_url,
+          code_phone: obj.profile.code_phone,
+          phone: obj.profile.phone
+        }, { transaction })
+      }
 
       await transaction.commit()
 

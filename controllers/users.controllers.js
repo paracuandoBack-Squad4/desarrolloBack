@@ -81,21 +81,42 @@ const getInfoUser = async (request, response) => {
 const updateUser = async (request, response) => {
   let id = request.params.user_id
   let { first_name, last_name, email, username, profile } = request.body
-  await usersService.updateUser(id, { first_name, last_name, email, username, profile })
-    .then(data => response.status(200).json(data))
-    .catch(err => response.status(400).json({
-      message: err.message, fields: {
-        first_name: 'STRING',
-        last_name: 'STRING',
-        email: 'STRING',
-        username: 'STRING',
-        profile: {
-          image_url: 'STRING',
-          code_phone: 'INTEGER',
-          phone: 'INTEGER'
+  if (profile) {
+    await usersService.updateUser(id, { first_name, last_name, email, username, profile })
+      .then(data => response.status(200).json(data))
+      .catch(err => response.status(400).json({
+        message: err.message, fields: {
+          first_name: 'STRING',
+          last_name: 'STRING',
+          email: 'STRING',
+          username: 'STRING',
+          profile: {
+            image_url: 'STRING',
+            code_phone: 'INTEGER',
+            phone: 'INTEGER'
+          }
         }
-      }
-    }))
+      }))
+  } else {
+    await usersService.updateUser(id, { first_name, last_name, email, username })
+      .then(data => response.status(200).json(data))
+      .catch(err => response.status(400).json({
+        message: err.message, fields: {
+          first_name: 'STRING',
+          last_name: 'STRING',
+          email: 'STRING',
+          username: 'STRING',
+          profile: {
+            image_url: 'STRING',
+            code_phone: 'INTEGER',
+            phone: 'INTEGER'
+          }
+        }
+      }))
+
+
+
+  }
 }
 
 const myPublications = async (request, response, next) => {
