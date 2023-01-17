@@ -23,9 +23,9 @@ const getUsers = async (request, response, next) => {
 }
 
 const addUser = (request, response) => {
-  const { first_name, last_name, email, username, password } = request.body
+  const { first_name, last_name, email, username, password, profile } = request.body
   if (first_name && last_name && email && username && password) {
-    usersService.createUser({ first_name, last_name, email, username, password })
+    usersService.createUser({ first_name, last_name, email, username, password, profile })
       .then(data => response.status(201).json(data))
       .catch(err => response.status(404).json({ message: err.message }))
   }
@@ -37,7 +37,12 @@ const addUser = (request, response) => {
           last_name: 'STRING',
           email: 'example@example.com',
           username: 'STRING',
-          password: 'STRING'
+          password: 'STRING',
+          profile: {
+            image_url: 'STRING',
+            code_phone: 'INTEGER',
+            phone: 'INTEGER'
+          }
         }
       }
     })
@@ -73,15 +78,24 @@ const getInfoUser = async (request, response) => {
 }
 
 
-const updateUser = async (request, response, next) => {
-  try {
-    let id = request.params.user_id
-    let { first_name, last_name, email, username } = request.body
-    let user = await usersService.updateUser(id, { first_name, last_name, email, username })
-    return response.json({ results: user })
-  } catch (error) {
-    next(error)
-  }
+const updateUser = async (request, response) => {
+  let id = request.params.user_id
+  let { first_name, last_name, email, username, profile } = request.body
+  await usersService.updateUser(id, { first_name, last_name, email, username, profile })
+    .then(data => response.status(200).json(data))
+    .catch(err => response.status(400).json({
+      message: err.message, fields: {
+        first_name: 'STRING',
+        last_name: 'STRING',
+        email: 'STRING',
+        username: 'STRING',
+        profile: {
+          image_url: 'STRING',
+          code_phone: 'INTEGER',
+          phone: 'INTEGER'
+        }
+      }
+    }))
 }
 
 const myPublications = async (request, response, next) => {

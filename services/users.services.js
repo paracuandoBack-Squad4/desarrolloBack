@@ -48,6 +48,9 @@ class UsersService {
       const newProfile = await models.Profiles.create({
         id: uuid4(),
         user_id: newUser.id,
+        image_url: obj.profile.image_url,
+        code_phone: obj.profile.code_phone,
+        phone: obj.profile.phone
       }, { transaction })
       await transaction.commit()
       return { newUser, newProfile }
@@ -56,6 +59,8 @@ class UsersService {
       throw error
     }
   }
+
+
   //Return Instance if we do not converted to json (or raw:true)
   async getUserOr404(id) {
     let user = await models.Users.findByPk(id)
@@ -84,18 +89,25 @@ class UsersService {
     const transaction = await models.Users.sequelize.transaction()
     try {
       let user = await models.Users.findByPk(id)
+      let profile = await models.Profiles.findOne({ where: { user_id: id } })
 
       if (!user) throw new CustomError('Not found user', 404, 'Not Found')
+      if (!profile) throw new CustomError('Not found user', 404, 'Not Found')
 
       let updatedUser = await user.update({
         first_name: obj.first_name,
         last_name: obj.last_name,
         username: obj.username
       }, { transaction })
+      let updatedProfile = await profile.update({
+        image_url: obj.profile.image_url,
+        code_phone: obj.profile.code_phone,
+        phone: obj.profile.phone
+      }, { transaction })
 
       await transaction.commit()
 
-      return updatedUser
+      return { updatedUser, updatedProfile }
 
     } catch (error) {
       await transaction.rollback()
