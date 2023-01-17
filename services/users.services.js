@@ -116,13 +116,15 @@ class UsersService {
   }
 
 
-  async getUserInformation(id) {
-    let user = await models.Users.findOne({ where: { id: id } })
+  async getUserInformation(userId) {
+    let user = await models.Users.findOne({ where: { id: userId } })
+    let { id, role_id, image_url, code_phone, phone, country_id } = await models.Profiles.findOne({ where: { user_id: userId } })
     return {
       id: user.id,
       first_name: user.first_name,
       last_name: user.last_name,
-      email: user.email
+      email: user.email,
+      profile: { id, role_id, image_url, code_phone, phone, country_id }
     }
   }
 

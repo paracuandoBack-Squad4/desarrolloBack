@@ -9,6 +9,7 @@ const routesLogin = require('../auth/auth.route')
 const routerRoles = require('./roles.route')
 const passport = require('passport')
 const { getUsers, addUser, getInfoUser } = require('../controllers/users.controllers')
+const isAdmin = require('../middlewares/isAdmin.middleware')
 require('../middlewares/auth.middleware')(passport)
 
 
@@ -19,7 +20,7 @@ function routerModels(app) {
   app.use('/api/v1', router)
 
   router.use('/login', routesLogin)
-  router.get('/users', getUsers)
+  router.get('/users', passport.authenticate('jwt', { session: false }), isAdmin, getUsers)
   router.post('/sign-up', addUser)
   router.get('/user-info', passport.authenticate('jwt', { session: false }), getInfoUser)
   router.use('/user', passport.authenticate('jwt', { session: false }), routesUsers)
