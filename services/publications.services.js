@@ -1,6 +1,6 @@
 const { v4: uuid4 } = require('uuid')
 const models = require('../database/models')
-const { Op, where } = require('sequelize')
+const { Op } = require('sequelize')
 const { CustomError } = require('../utils/custom-error')
 
 
@@ -113,6 +113,7 @@ class PublicationsServices {
     }
     catch (error) {
       await transaction.rollback()
+      throw error
     }
   }
   async removeVotesByPublication(id, publicationId) {
@@ -130,6 +131,7 @@ class PublicationsServices {
     }
     catch (error) {
       await transaction.rollback()
+      throw error
     }
   }
 
