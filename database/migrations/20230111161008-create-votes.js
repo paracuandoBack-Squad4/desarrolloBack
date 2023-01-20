@@ -5,10 +5,6 @@ module.exports = {
     const transaction = await queryInterface.sequelize.transaction()
     try {
       await queryInterface.createTable('Votes', {
-        id: {
-          type: Sequelize.UUID,
-          allowNull: true
-        },
         publication_id: {
           type: Sequelize.UUID,
           foreignKey: true,
@@ -44,6 +40,7 @@ module.exports = {
           field: 'updated_at'
         }
       }, { transaction })
+
       await transaction.commit()
     } catch (error) {
       await transaction.rollback()

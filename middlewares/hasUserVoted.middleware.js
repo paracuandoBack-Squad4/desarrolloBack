@@ -11,7 +11,7 @@ const hasUserVoted = async (request, response, next) => {
   publicationServices.findByPublicationAndProfile(id, publicationId)
     .then(data => {
       if (data) {
-        response.status(400).json({ message: 'The users has already voted for this publication ' })
+        response.status(400).json({ message: 'The user has already voted for this publication ' })
       }
       else {
         next()

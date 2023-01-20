@@ -15,8 +15,14 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Votes.init({
-    publication_id: DataTypes.UUID,
-    profile_id: DataTypes.UUID
+    publication_id: {
+      type: DataTypes.UUID,
+      primaryKey: true
+    },
+    profile_id: {
+      type: DataTypes.UUID,
+      primaryKey: true
+    }
   }, {
     sequelize,
     modelName: 'Votes',
