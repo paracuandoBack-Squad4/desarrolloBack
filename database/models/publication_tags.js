@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     publication_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       primaryKey: true,
       allowNull: false
     }

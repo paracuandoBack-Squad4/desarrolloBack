@@ -11,7 +11,7 @@ module.exports = {
       publication_id: {
         primaryKey: true,
         allowNull: false, 
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         references:{
           model: 'Publications',
           key: 'id'

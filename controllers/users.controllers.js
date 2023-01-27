@@ -35,7 +35,7 @@ const addUser = (request, response) => {
           html: `<h1>Bienvenido a nuestra app ${first_name}</h1>`,
           text: 'Qué gusto verte aquí'
         })
-        response.status(201).json(data)})
+        response.status(201).json(data.newUser.dataValues)})
       .catch(err => response.status(404).json({ message: err.message }))
   }
   else {
