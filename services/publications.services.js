@@ -58,7 +58,7 @@ class PublicationsServices {
         city_id: obj.city_id,
         image_url: obj.image_url
       }, { transaction })
-      let tags_ids = obj.tags.split(',')
+      let tags_ids = tags.split(',')
       await newPublication.setTags(tags_ids, { transaction })
       await transaction.commit()
       return newPublication
