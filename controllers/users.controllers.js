@@ -1,7 +1,6 @@
 const UsersService = require('../services/users.services')
 const { getPagination, getPagingData } = require('../utils/sequelize-utils')
 const mailer = require('../utils/mailer')
-const { text } = require('express')
 
 
 const usersService = new UsersService()
@@ -123,9 +122,6 @@ const updateUser = async (request, response) => {
           }
         }
       }))
-
-
-
   }
 }
 

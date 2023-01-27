@@ -7,6 +7,7 @@ const routesPublications = require('./publications.route')
 const routesPublicationsType = require('./publications_type.route')
 const routesLogin = require('../auth/auth.route')
 const routerRoles = require('./roles.route')
+const routesTags = require('./tags.route')
 const passport = require('passport')
 const { getUsers, addUser, getInfoUser } = require('../controllers/users.controllers')
 const isAdmin = require('../middlewares/isAdmin.middleware')
@@ -30,6 +31,7 @@ function routerModels(app) {
   router.use('/publications', passport.authenticate('jwt', { session: false }), routesPublications)
   router.use('/publications_types', passport.authenticate('jwt', { session: false }), routesPublicationsType)
   router.use('/roles', passport.authenticate('jwt', { session: false }), routerRoles)
+  router.use('/tags', routesTags)
 }
 
 module.exports = routerModels
