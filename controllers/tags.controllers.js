@@ -54,10 +54,10 @@ const updateTag = async (request, response) => {
 
 const deleteTag = async (request, require) => {
   let id = request.params.id
-  if(id){
+  if (id) {
     await tagsServices.removeTag(id)
-    .then(data => response.status(200).json(data, {message: 'Tag eliminated'}))
-    .catch(err => response.status(400).json({message: err.message}))
+      .then(data => response.status(200).json(data, { message: 'Tag eliminated' }))
+      .catch(err => response.status(400).json({ message: err.message }))
   }
 }
 

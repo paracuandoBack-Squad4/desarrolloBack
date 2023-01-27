@@ -76,7 +76,7 @@ class TagsService {
 
 
   async removeTag(id) {
-    const transaction = await models.sequelize.transaction();
+    const transaction = await models.sequelize.transaction()
     try {
       let tag = await models.Tags.findByPk(id)
 
@@ -84,11 +84,11 @@ class TagsService {
 
       await tag.destroy({ transaction })
 
-      await transaction.commit();
+      await transaction.commit()
 
       return tag
     } catch (error) {
-      await transaction.rollback();
+      await transaction.rollback()
       throw error
     }
   }

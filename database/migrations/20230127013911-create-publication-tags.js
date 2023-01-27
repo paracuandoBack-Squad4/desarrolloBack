@@ -6,13 +6,17 @@ module.exports = {
       tag_id: {
         primaryKey: true,
         allowNull: false,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Tags',
+          key: 'id'
+        }
       },
       publication_id: {
         primaryKey: true,
-        allowNull: false, 
+        allowNull: false,
         type: Sequelize.UUID,
-        references:{
+        references: {
           model: 'Publications',
           key: 'id'
         }
@@ -25,7 +29,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
-    });
+    })
   },
   async down(queryInterface, Sequelize) {
     const transaction = await queryInterface.sequelize.transaction()

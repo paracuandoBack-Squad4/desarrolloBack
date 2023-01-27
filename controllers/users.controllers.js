@@ -27,15 +27,16 @@ const addUser = (request, response) => {
   const { first_name, last_name, email, username, password, profile } = request.body
   if (first_name && last_name && email && username && password) {
     usersService.createUser({ first_name, last_name, email, username, password, profile })
-      .then(async(data) => {
+      .then(async (data) => {
         await mailer.sendMail({
-          from: 'nicolaspantojadi@gmail.com',
+          from: 'luisjavier_2705@hotmail.com',
           to: data.email,
           subject: `Bienvenido ${data.first_name}`,
           html: `<h1>Bienvenido a nuestra app ${first_name}</h1>`,
           text: 'Qué gusto verte aquí'
         })
-        response.status(201).json(data.newUser.dataValues)})
+        response.status(201).json(data.newUser.dataValues)
+      })
       .catch(err => response.status(404).json({ message: err.message }))
   }
   else {
