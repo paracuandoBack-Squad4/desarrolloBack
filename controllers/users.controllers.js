@@ -1,5 +1,7 @@
 const UsersService = require('../services/users.services')
 const { getPagination, getPagingData } = require('../utils/sequelize-utils')
+const mailer = require('../utils/mailer')
+const { text } = require('express')
 
 
 const usersService = new UsersService()
@@ -26,7 +28,15 @@ const addUser = (request, response) => {
   const { first_name, last_name, email, username, password, profile } = request.body
   if (first_name && last_name && email && username && password) {
     usersService.createUser({ first_name, last_name, email, username, password, profile })
-      .then(data => response.status(201).json(data))
+      .then(async(data) => {
+        await mailer.sendMail({
+          from: 'nicolaspantojadi@gmail.com',
+          to: data.email,
+          subject: `Bienvenido ${data.first_name}`,
+          html: `<h1>Bienvenido a nuestra app ${first_name}</h1>`,
+          text: 'Qué gusto verte aquí'
+        })
+        response.status(201).json(data)})
       .catch(err => response.status(404).json({ message: err.message }))
   }
   else {

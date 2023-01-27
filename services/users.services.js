@@ -101,6 +101,7 @@ class UsersService {
       }, { transaction })
       let updatedProfile
       if (Object.keys(obj).length == 5) {
+        
         updatedProfile = await profile.update({
           image_url: obj.profile.image_url,
           code_phone: obj.profile.code_phone,
@@ -142,13 +143,6 @@ class UsersService {
       profile: { id, role_id, image_url, code_phone, phone, country_id }
     }
   }
-
-
-
-
-
-
-
 
 
 }

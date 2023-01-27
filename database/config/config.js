@@ -3,6 +3,9 @@ require('dotenv').config();
 module.exports = {
   development: {
     use_env_variable: 'DATABASE_URI_DEV',
+    jwt_secret: 'JWT_SECRET',
+    mail_user: 'MAIL_USER',
+    mail_pass: 'MAIL_PASS',
     define: {
       timestamps: true,
       underscored: true,

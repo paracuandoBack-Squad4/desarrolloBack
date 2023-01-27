@@ -11,10 +11,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Users.hasMany(models.Profiles, { as: 'Profiles', foreignKey: 'user_id' })
+      Users.hasMany(models.Recovery_Password, {as: 'Recover_Password', foreignKey: 'user_id'})
     }
   }
   Users.init({
-    first_name: DataTypes.BIGINT,
+    first_name: DataTypes.STRING,
     last_name: DataTypes.STRING,
     email: DataTypes.STRING,
     username: DataTypes.STRING,
