@@ -455,6 +455,157 @@ require('../middlewares/auth.middleware')(passport)
  * 
  * 
  * 
+ *  /api/v1/publications_types/{id}:
+ *    get:
+ *      tags:
+ *        - PublicationsTypes
+ *      summary: se retorna el tipo de publicación.
+ *      parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *             type: string
+ *         required: true
+ *         description: the publications_types id
+ *      responses:
+ *       '200':
+ *         description: (Ok) tipo de publicación exitosa.
+ *       '400':
+ *         $ref: '#/components/responses/BadRequest'
+ *       '401':
+ *         $ref: '#/components/responses/Unauthorized'
+ *       '404':
+ *         $ref: '#/components/responses/NotFound'
+ *       '500':
+ *         $ref: '#/components/responses/ServerError'
+ * 
+ *      security:
+ *        - jwtAuth: []
+ * 
+ * 
+ *  /api/v1/user/{id}:
+ *    get:
+ *      tags:
+ *        - User
+ *      summary:  información del usuario.
+ *      parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *             type: string
+ *         required: true
+ *         description: the user id
+ *      responses:
+ *       '200':
+ *         description: (Ok) usuario exitoso.
+ *       '400':
+ *         $ref: '#/components/responses/BadRequest'
+ *       '401':
+ *         $ref: '#/components/responses/Unauthorized'
+ *       '404':
+ *         $ref: '#/components/responses/NotFound'
+ *       '500':
+ *         $ref: '#/components/responses/ServerError'
+ * 
+ *      security:
+ *        - jwtAuth: []
+ * 
+ * 
+ *    patch:
+ *      tags:
+ *        - User
+ *      summary: el usuario podra editar su información.
+ *      parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *             type: string
+ *         required: true
+ *         description: the user id
+ *      requestBody: 
+ *        description: el usuario podra modificar su información.
+ *        content:
+ *          application/json:
+ *            schema:                      
+ *               $ref: '#/components/schemas/patchUser'
+ *      responses:
+ *       '200':
+ *         description: (Ok) usuario modificado exitoso.
+ *         content:
+ *           application/json:
+ *             schema:                      
+ *                $ref: '#/components/schemas/patchUser'
+ *       '400':
+ *         $ref: '#/components/responses/BadRequest'
+ *       '401':
+ *         $ref: '#/components/responses/Unauthorized'
+ *       '404':
+ *         $ref: '#/components/responses/NotFound'
+ *       '500':
+ *         $ref: '#/components/responses/ServerError'
+ * 
+ *      security:
+ *        - jwtAuth: []
+ * 
+ * 
+ *  /api/v1/user/{id}/publications:
+ *    get:
+ *      tags:
+ *        - User
+ *      summary: el usuario podra ver todas las publicaciones que realizo.
+ *      parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *             type: string
+ *         required: true
+ *         description: the user id
+ *      responses:
+ *       '200':
+ *         description: (Ok) publicaiones del usuario exitoso.
+ *       '400':
+ *         $ref: '#/components/responses/BadRequest'
+ *       '401':
+ *         $ref: '#/components/responses/Unauthorized'
+ *       '404':
+ *         $ref: '#/components/responses/NotFound'
+ *       '500':
+ *         $ref: '#/components/responses/ServerError'
+ * 
+ *      security:
+ *        - jwtAuth: []
+ * 
+ * 
+ *  /api/v1/user/{id}/votes:
+ *    get:
+ *      tags:
+ *        - User
+ *      summary: el usuario podra ver todo sus votos que realizo.
+ *      parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *             type: string
+ *         required: true
+ *         description: the user id
+ *      responses:
+ *       '200':
+ *         description: (Ok) votos del usuario exitoso.
+ *       '400':
+ *         $ref: '#/components/responses/BadRequest'
+ *       '401':
+ *         $ref: '#/components/responses/Unauthorized'
+ *       '404':
+ *         $ref: '#/components/responses/NotFound'
+ *       '500':
+ *         $ref: '#/components/responses/ServerError'
+ * 
+ *      security:
+ *        - jwtAuth: []
+ * 
+ * 
+ * 
+ *  
  *
  * 
  * 
@@ -540,13 +691,6 @@ require('../middlewares/auth.middleware')(passport)
  *             description: Id del usuario requerido                 
  *        required: true
  * 
- *     postVote:
- *        type: object
- *        properties: 
- *          publication_id:
- *             type: string
- *             description: Id de la publicación votada
- *        required: true
  * 
  *     RecordedProfile:
  *        type: object
@@ -616,6 +760,79 @@ require('../middlewares/auth.middleware')(passport)
  *          message:
  *             type: string
  *             description: Sent recovery email message         
+ *        required: true
+ *  
+ * 
+ *     addPublications:
+ *        type: object
+ *        properties: 
+ *          publication_type_id:
+ *             type: integer      
+ *          title:
+ *             type: string      
+ *          description:
+ *             type: string      
+ *          content:
+ *             type: string      
+ *          picture:
+ *             type: string      
+ *          city_id:
+ *             type: integer      
+ *          image_url:
+ *             type: string      
+ *        required: true
+ * 
+ *  
+ *     getPublications:
+ *        type: array
+ *        properties: 
+ *          id:
+ *             type: string      
+ *             format: uuid      
+ *          profile_id:
+ *             type: string      
+ *             format: uuid      
+ *          publication_type_id:
+ *             type: integer      
+ *          title:
+ *             type: string      
+ *          description:
+ *             type: string      
+ *          content:
+ *             type: string      
+ *          picture:
+ *             type: string      
+ *          city_id:
+ *             type: integer      
+ *          image_url:
+ *             type: string      
+ *        required: true
+ * 
+ * 
+ * 
+ *     postVote:
+ *        type: object
+ *        properties: 
+ *          publication_id:
+ *             type: string  
+ *             description: Id de la publicación votada
+ *             format: uuid      
+ *          profile_id:
+ *             type: string      
+ *             format: uuid                  
+ *        required: true
+ * 
+ * 
+ *  
+ *     patchUser:
+ *        type: object
+ *        properties: 
+ *          first_name:
+ *             type: string                    
+ *          last_name:
+ *             type: string                       
+ *          username:
+ *             type: string                       
  *        required: true
  *  
  * 
