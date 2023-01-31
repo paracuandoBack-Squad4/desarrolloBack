@@ -2,6 +2,7 @@ const { v4: uuid4 } = require('uuid')
 const models = require('../database/models')
 const { Op } = require('sequelize')
 const { CustomError } = require('../utils/custom-error')
+const tags = require('../database/models/tags')
 
 
 class PublicationsServices {
@@ -26,9 +27,21 @@ class PublicationsServices {
       options.where.name = { [Op.iLike]: `%${name}%` }
     }
     options.distinct = true
+    const { tags } = query
+    if (tags) {
+      let tagsIDs = tags.split(',')
+      options.include.push({ // El options que les di en el ejemplo 
+        model: models.Tags,
+        as: 'tags',
+        required: true,
+        where: { id: tagsIDs },
+        through: { attributes: [] }
+      })
+    }
     const publications = await models.Publications.findAndCountAll(options)
     return publications
   }
+
 
   async createPublication(id, obj) {
     const transaction = await models.Publications.sequelize.transaction()
@@ -45,6 +58,8 @@ class PublicationsServices {
         city_id: obj.city_id,
         image_url: obj.image_url
       }, { transaction })
+      let tags_ids = tags.split(',')
+      await newPublication.setTags(tags_ids, { transaction })
       await transaction.commit()
       return newPublication
     } catch (error) {

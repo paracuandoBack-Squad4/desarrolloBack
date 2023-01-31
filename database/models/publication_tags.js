@@ -19,13 +19,21 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     publication_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       primaryKey: true,
       allowNull: false
     }
   }, {
     sequelize,
     modelName: 'Publication_Tags',
+    tableName: 'Publication_Tags',
+    underscored: true,
+    timestamps: true,
+    scopes: {
+      no_timestamps: {
+        attributes: { exclude: ['created_at', 'updated_at'] }
+      },
+    },
   });
   return Publication_Tags;
 };

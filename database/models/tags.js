@@ -22,6 +22,17 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Tags',
+    tableName: 'Tags',
+    underscored: true,
+    timestamps: true,
+    scopes: {
+      public_view: {
+        attributes: ['name']
+      },
+      no_timestamps: {
+        attributes: { exclude: ['created_at', 'updated_at'] }
+      },
+    },
   });
   return Tags;
 };
