@@ -1,12 +1,12 @@
 const UsersService = require('../services/users.services')
 
-const UserService = new UsersService()
+const userService = new UsersService()
 
 const isAdmin = async (request, response, next) => {
   const id = request.user.id
-  UserService.getUserInformation(id)
+  userService.getUserInformation(id)
     .then(data => {
-      if (data.profile.role_id === 2) {
+      if (data.profile.role_id == 2) {
         next()
       }
       else {

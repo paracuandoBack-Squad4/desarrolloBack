@@ -29,13 +29,13 @@ const addUser = (request, response) => {
     usersService.createUser({ first_name, last_name, email, username, password, profile })
       .then(async(data) => {
         await mailer.sendMail({
-          from: 'nicolaspantojadi@gmail.com',
-          to: data.email,
-          subject: `Bienvenido ${data.first_name}`,
+          from: 'eduardohelfer@gmail.com',
+          to: email,
+          subject: `Bienvenido ${first_name}`,
           html: `<h1>Bienvenido a nuestra app ${first_name}</h1>`,
           text: 'Qué gusto verte aquí'
         })
-        response.status(201).json(data)})
+        response.status(201).json(data.newUser.dataValues)})
       .catch(err => response.status(404).json({ message: err.message }))
   }
   else {
