@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Users.hasMany(models.Profiles, { as: 'Profiles', foreignKey: 'user_id' })
-      Users.hasMany(models.Recovery_Password, {as: 'Recover_Password', foreignKey: 'user_id'})
+      Users.hasMany(models.Recovery_Passwords, {as: 'recover_password', foreignKey: 'user_id'})
     }
   }
   Users.init({
