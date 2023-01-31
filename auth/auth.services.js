@@ -44,13 +44,16 @@ const postRecoveryToken = (request, response) => {
       .then((data) => {
         if (data) {
           mailer.sendMail({
-            from: 'nicolaspantojadi@gmail.com',
+            from: 'eduardohelfer@gmail.com',
             to: email,
             subject: 'Recovery Password',
-            html: `<a href='${config.api.host}/api/v1/recovery-password/${data.id}>${config.api.host}/api/v1/recovery-password/${data.id}</a>`
+            html: `Through this link you'll be able to receover the access by updating your password: <a href='${config.api.host}/api/v1/recovery-password/${data.dataValues.id}'>${config.api.host}/api/v1/recovery-password/${data.dataValues.id}</a>`,
+            text: `Password recovery URL: ${config.api.host}/api/v1/recovery-password/${data.dataValues.id}`
           })
+          response.status(200).json({ message: 'Email sended. Check your inbox!' })
+        } else {
+          response.status(400).json({ message: 'Error, token not created' })
         }
-        response.status(200).json({ message: 'Email sended. Check your inbox!' })
       })
       .catch((err) => {
         response.status(400).json({ message: err })
