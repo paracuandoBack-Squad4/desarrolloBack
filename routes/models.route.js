@@ -25,8 +25,10 @@ require('../middlewares/auth.middleware')(passport)
  *     description: el usuario podra crear, ver sus publicaciónes, y asi mismo podra realizar su respectivo voto
  *   - name: User
  *     description: el usuario podra ver, editar su información personal. asi mismo podra ver los votos que realizo como las publicación que realizó.
- *   - name: Users
- *     description: ruta de mantenimiento disponible solo para usuarios con rol de 'admin'.
+ *   - name: States
+ *     description: el usuario podra ver todo los estados actuales
+ *   - name: Cities
+ *     description: el usuario podra ver todas las ciudades actuales
  *   
  *      
  *     
@@ -401,58 +403,6 @@ require('../middlewares/auth.middleware')(passport)
  * 
  *      security:
  *        - jwtAuth: []
- *  
- *  /api/v1/users:
- *    get:
- *      tags:
- *        - Users
- *      summary: Ruta de mantenimiento disponible solo para usuarios con rol de 'admin'.
- *      description: Reporta la lista de los usuarios.  Acepta parámetros de paginación 'page' y 'size'.
- *      parameters:
- *        - name: page
- *          in: query
- *          description: page to browse at once
- *          required: false
- *          explode: true
- *        - name: size
- *          in: query
- *          description: page to browse at once
- *          required: false
- *          explode: true
- *      responses:
- *       '200':
- *         description: (Ok) se retorna la lista
- *         content:
- *          application/json:
- *            schema:
- *              type: object
- *              properties:
- *                results:
- *                  type: object
- *                  properties:
- *                    count:
- *                      type: integer
- *                    totalPages:
- *                      type: integer
- *                    currentPage:
- *                      type: integer
- *                    results:
- *                      type: array
- *                      items:
- *                        $ref: '#/components/schemas/RecordedUser'
- *       '400':
- *         $ref: '#/components/responses/BadRequest'
- *       '401':
- *         $ref: '#/components/responses/Unauthorized'
- *       '404':
- *         $ref: '#/components/responses/NotFound'
- *       '500':
- *         $ref: '#/components/responses/ServerError'
- * 
- *      security:
- *        - jwtAuth: []
- * 
- * 
  * 
  * 
  *  /api/v1/publications_types/{id}:
@@ -604,12 +554,113 @@ require('../middlewares/auth.middleware')(passport)
  *        - jwtAuth: []
  * 
  * 
+ *  /api/v1/users:
+ *    get:
+ *      tags:
+ *        - Users
+ *      summary: Ruta de mantenimiento disponible solo para usuarios con rol de 'admin'.
+ *      description: Reporta la lista de los usuarios.  Acepta parámetros de paginación 'page' y 'size'.
+ *      parameters:
+ *        - name: page
+ *          in: query
+ *          description: page to browse at once
+ *          required: false
+ *          explode: true
+ *        - name: size
+ *          in: query
+ *          description: page to browse at once
+ *          required: false
+ *          explode: true
+ *      responses:
+ *       '200':
+ *         description: (Ok) se retorna la lista
+ *         content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                results:
+ *                  type: object
+ *                  properties:
+ *                    count:
+ *                      type: integer
+ *                    totalPages:
+ *                      type: integer
+ *                    currentPage:
+ *                      type: integer
+ *                    results:
+ *                      type: array
+ *                      items:
+ *                        $ref: '#/components/schemas/RecordedUser'
+ *       '400':
+ *         $ref: '#/components/responses/BadRequest'
+ *       '401':
+ *         $ref: '#/components/responses/Unauthorized'
+ *       '404':
+ *         $ref: '#/components/responses/NotFound'
+ *       '500':
+ *         $ref: '#/components/responses/ServerError'
  * 
- *  
- *
+ *      security:
+ *        - jwtAuth: []
  * 
  * 
- *                                     
+ *  /api/v1/states:
+ *    get:
+ *      tags:
+ *        - States
+ *      summary: el usuario podra ver el estado actual.
+ *      responses:
+ *       '200':
+ *         description: (Ok) se retorna el estado actual
+ *         content:
+ *          application/json:
+ *            schema:
+ *                $ref: '#/components/schemas/states'
+ *       '400':
+ *         $ref: '#/components/responses/BadRequest'
+ *       '401':
+ *         $ref: '#/components/responses/Unauthorized'
+ *       '404':
+ *         $ref: '#/components/responses/NotFound'
+ *       '500':
+ *         $ref: '#/components/responses/ServerError'
+ * 
+ *      security:
+ *        - jwtAuth: []
+ * 
+ *  /api/v1/cities:
+ *    get:
+ *      tags:
+ *        - Cities
+ *      summary: el usuario podra ver todas las ciudades actuales.
+ *      responses:
+ *       '200':
+ *         description: (Ok) se retorna la ciudad actual
+ *         content:
+ *          application/json:
+ *            schema:
+ *                $ref: '#/components/schemas/cities'
+ *       '400':
+ *         $ref: '#/components/responses/BadRequest'
+ *       '401':
+ *         $ref: '#/components/responses/Unauthorized'
+ *       '404':
+ *         $ref: '#/components/responses/NotFound'
+ *       '500':
+ *         $ref: '#/components/responses/ServerError'
+ * 
+ *      security:
+ *        - jwtAuth: []
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ *                                    
  */ 
 
 
@@ -729,22 +780,6 @@ require('../middlewares/auth.middleware')(passport)
  *        required: true
  * 
  * 
- *     RecordedUser:
- *        type: object
- *        properties: 
- *          id:
- *             type: string
- *             format: uuid                
- *          first_name:
- *             type: string                
- *          last_name:
- *             type: string                
- *          username:
- *             type: string                
- *          email:
- *             type: string 
- * 
- *  
  *     RecoveryEmail:
  *        type: object
  *        properties: 
@@ -761,7 +796,8 @@ require('../middlewares/auth.middleware')(passport)
  *             type: string
  *             description: Sent recovery email message         
  *        required: true
- *  
+ * 
+ * 
  * 
  *     addPublications:
  *        type: object
@@ -814,8 +850,7 @@ require('../middlewares/auth.middleware')(passport)
  *        type: object
  *        properties: 
  *          publication_id:
- *             type: string  
- *             description: Id de la publicación votada
+ *             type: string      
  *             format: uuid      
  *          profile_id:
  *             type: string      
@@ -834,7 +869,47 @@ require('../middlewares/auth.middleware')(passport)
  *          username:
  *             type: string                       
  *        required: true
+ * 
+ * 
+ *     RecordedUser:
+ *        type: object
+ *        properties: 
+ *          id:
+ *             type: string
+ *             format: uuid                
+ *          first_name:
+ *             type: string                
+ *          last_name:
+ *             type: string                
+ *          username:
+ *             type: string                
+ *          email:
+ *             type: string
+ * 
  *  
+ *     states:
+ *        type: object
+ *        properties: 
+ *          id:
+ *             type: integer                
+ *          country_id:
+ *             type: integer                
+ *          name:
+ *             type: string                 
+ *        required: true
+ * 
+ *     cities:
+ *        type: object
+ *        properties: 
+ *          id:
+ *             type: integer                
+ *          state_id:
+ *             type: integer                
+ *          name:
+ *             type: string                 
+ *        required: true
+ * 
+ * 
  * 
  *  parameters:
  *   authToken:
