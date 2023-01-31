@@ -17,17 +17,28 @@ require('../middlewares/auth.middleware')(passport)
 /**
  * @swagger
  * tags:
- *   - name: Autenticación
- *     description: Usuario podra, registrarse, poderá obtener su token, asi mismo podra ver su información personal y po ultimo podra editar su contraseña.
- *   - name: PublicationsTypes
+ *   - name: sign-up
+ *     description: Crea un Usuario junto con su respectivo Perfil único.
+ *   - name: login
  *     description: Devuelve el token que se usará para las peticiones a rustas protegidas desde Front End.
- *   - name: Publications
- *     description: el usuario podra crear, ver sus publicaciónes, y asi mismo podra realizar su respectivo voto
- *   - name: User
- *     description: el usuario podra ver, editar su información personal. asi mismo podra ver los votos que realizo como las publicación que realizó.
- *   - name: Users
- *     description: ruta de mantenimiento disponible solo para usuarios con rol de 'admin'.
- *   
+ *   - name: user-info
+ *     description: Registra información básica del Usuario y su Perfil para poder hacer peticiones con base en el "token" recibido.
+ *   - name: recovery-password
+ *     description: Se solicita un cambio de contraseña, para lo que se genera un "token" con fecha de expiración en la tabla de usuarios. Se envía el token al usuario via E-Mail junto con un enlace a una ruta sin protección de auth para que el usuario haga Post junto con el cambio de la contraseña.  Si se verifica que el token es legítimo, entonces se realiza el cambio de contraseña solicitado.
+ *   - name: publications-types
+ *     description: CRUD de los tipos de publicaciones.
+ *   - name: publications
+ *     description: CRUD de publicaciones.
+ *   - name: user
+ *     description: CRUD de los usuarios con restricciones de acceso y consultas con asociaciones (votos, publicaciones, etc).
+ *   - name: users
+ *     description: Retorna todos los usuarios - Vista administrativa con paginación.
+ *   - name: countries
+ *     description: GetAll. Retorna todos los paises. 
+ *   - name: cities
+ *     description: GetAll. Retorna todas las ciudades. 
+ *   - name: roles
+ *     description: GetAll. Retorna todos los roles. 
  *      
  *     
  */
@@ -40,7 +51,7 @@ require('../middlewares/auth.middleware')(passport)
  *  /api/v1/sign-up:
  *    post:
  *      tags:
- *        - Autenticación
+ *        - sign-up
  *      summary: Crea un Usuario junto con su respectivo Perfil único.
  *      requestBody: 
  *        description: Crea un Usuario junto con su respectivo Perfil único.
@@ -70,7 +81,7 @@ require('../middlewares/auth.middleware')(passport)
  *  /api/v1/login:
  *    post:
  *      tags:
- *        - Autenticación
+ *        - login
  *      summary: Verifica la coinsidencia de email y password y entrega como respuesta el token de autenticación.
  *      requestBody: 
  *        description: Verifica la coinsidencia de email y password y entrega como respuesta el token de autenticación.
@@ -107,7 +118,7 @@ require('../middlewares/auth.middleware')(passport)
  *  /api/v1/user-info:
  *    get:
  *      tags:
- *        - Autenticación
+ *        - user-info
  *      summary: Regresará la información básica del Usuario para poder hacer peticiones en base al token recibido.
  *      responses:
  *       '201':
@@ -135,7 +146,7 @@ require('../middlewares/auth.middleware')(passport)
  *  /api/v1/recovery-password:
  *    post:
  *      tags:
- *        - Autenticación
+ *        - recovery-password
  *      summary: Se solicita un cambio de contraseña, para lo que se genera un "token" con fecha de expiración en la tabla de usuarios. Se envía el token al usuario via E-Mail junto con un enlace a una ruta sin protección de auth para que el usuario haga Post junto con el cambio de la contraseña.  Si se verifica que el token es legítimo, entonces se realiza el cambio de contraseña solicitado.
  *      requestBody: 
  *        description: Recibe email.
@@ -160,224 +171,10 @@ require('../middlewares/auth.middleware')(passport)
  *         $ref: '#/components/responses/ServerError'
  * 
  * 
- * 
- *  /api/v1/publications:
- *    post:
- *      tags:
- *        - Publications
- *      summary: el usuario podra crear una publicación
- *      requestBody: 
- *        description: el usuario podra crear una publicación.
- *        content:
- *          application/json:
- *            schema:                      
- *               $ref: '#/components/schemas/addPublications'
- *      responses:
- *       '201':
- *         description: (Ok) se crea la publicación del usuario.
- *         content:
- *           application/json:
- *             schema:                      
- *                $ref: '#/components/schemas/addPublications'
- *       '400':
- *         $ref: '#/components/responses/BadRequest'
- *       '401':
- *         $ref: '#/components/responses/Unauthorized'
- *       '404':
- *         $ref: '#/components/responses/NotFound'
- *       '500':
- *         $ref: '#/components/responses/ServerError'
- * 
- *      security:
- *         - jwtAuth: []
- * 
- * 
- *    get:
- *      tags:
- *        - Publications
- *      summary: el usuario podra ver sus publicaciones
- *      responses:
- *       '201':
- *         description: (Ok) el usuario podra ver sus publicaciones.
- *         content:
- *           application/json:
- *             schema:                      
- *                $ref: '#/components/schemas/getPublications'
- *       '400':
- *         $ref: '#/components/responses/BadRequest'
- *       '401':
- *         $ref: '#/components/responses/Unauthorized'
- *       '404':
- *         $ref: '#/components/responses/NotFound'
- *       '500':
- *         $ref: '#/components/responses/ServerError'
- * 
- *      security:
- *         - jwtAuth: []
- * 
- * 
- *  /api/v1/publications/{id}:
- *    get:
- *      tags:
- *        - Publications
- *      summary: el usuario podra ver su publicacione, según su ID
- *      parameters:
- *       - in: path
- *         name: id
- *         schema:
- *             type: string
- *         required: true
- *         description: the publication id
- *      responses:
- *       '201':
- *         description: el usuario podra ver su publicacione, según su ID.
- *         content:
- *           application/json:
- *             schema:                      
- *                $ref: '#/components/schemas/getPublications'
- *       '400':
- *         $ref: '#/components/responses/BadRequest'
- *       '401':
- *         $ref: '#/components/responses/Unauthorized'
- *       '404':
- *         $ref: '#/components/responses/NotFound'
- *       '500':
- *         $ref: '#/components/responses/ServerError'
- * 
- *      security:
- *         - jwtAuth: []
- * 
- * 
- *    delete:
- *      tags:
- *        - Publications
- *      summary: el usuario podra eliminar su publicacion, según su ID
- *      parameters:
- *       - in: path
- *         name: id
- *         schema:
- *             type: string
- *         required: true
- *         description: the publication id
- *      responses:
- *       '201':
- *         description: (OK) publicación eliminada.
- *       '400':
- *         $ref: '#/components/responses/BadRequest'
- *       '401':
- *         $ref: '#/components/responses/Unauthorized'
- *       '404':
- *         $ref: '#/components/responses/NotFound'
- *       '500':
- *         $ref: '#/components/responses/ServerError'
- * 
- *      security:
- *         - jwtAuth: []
- * 
- * 
- *  /api/v1/publications/{id}/vote:
- *    post:
- *      tags:
- *        - Publications
- *      summary: el usuario podra votar una publicación
- *      parameters:
- *       - in: path
- *         name: id
- *         schema:
- *             type: string
- *         required: true
- *         description: the publication id
- *      requestBody: 
- *        description: el usuario podra hacer su voto respectivo.
- *        content:
- *          application/json:
- *            schema:                      
- *               $ref: '#/components/schemas/postVote'
- *      responses:
- *       '201':
- *         description: (OK) voto exitoso¡.
- *         content:
- *           application/json:
- *             schema:                      
- *                $ref: '#/components/schemas/postVote'
- *       '400':
- *         $ref: '#/components/responses/BadRequest'
- *       '401':
- *         $ref: '#/components/responses/Unauthorized'
- *       '404':
- *         $ref: '#/components/responses/NotFound'
- *       '500':
- *         $ref: '#/components/responses/ServerError'
- * 
- *      security:
- *         - jwtAuth: []
- * 
- * 
- *    get:
- *      tags:
- *        - Publications
- *      summary: el usuario podra ver sus votos
- *      parameters:
- *       - in: path
- *         name: id
- *         schema:
- *             type: string
- *         required: true
- *         description: the publication id
- *      responses:
- *       '200':
- *         description: (OK) votos.
- *         content:
- *           application/json:
- *             schema:                      
- *                $ref: '#/components/schemas/postVote'
- *       '400':
- *         $ref: '#/components/responses/BadRequest'
- *       '401':
- *         $ref: '#/components/responses/Unauthorized'
- *       '404':
- *         $ref: '#/components/responses/NotFound'
- *       '500':
- *         $ref: '#/components/responses/ServerError'
- * 
- *      security:
- *         - jwtAuth: []
- * 
- * 
- * 
- *    delete:
- *      tags:
- *        - Publications
- *      summary: el usuario podra eliminar su voto
- *      parameters:
- *       - in: path
- *         name: id
- *         schema:
- *             type: string
- *         required: true
- *         description: the publication id
- *      responses:
- *       '201':
- *         description: (OK) voto eliminado.
- *       '400':
- *         $ref: '#/components/responses/BadRequest'
- *       '401':
- *         $ref: '#/components/responses/Unauthorized'
- *       '404':
- *         $ref: '#/components/responses/NotFound'
- *       '500':
- *         $ref: '#/components/responses/ServerError'
- * 
- *      security:
- *         - jwtAuth: []
- * 
- * 
- * 
- * 
  *  /api/v1/publications_types:
  *    get:
  *      tags:
- *        - PublicationsTypes
+ *        - publications-types
  *      summary: Informa la lista de tipos de publicaciones.
  *      responses:
  *       '200':
@@ -401,64 +198,13 @@ require('../middlewares/auth.middleware')(passport)
  * 
  *      security:
  *        - jwtAuth: []
- *  
- *  /api/v1/users:
- *    get:
- *      tags:
- *        - Users
- *      summary: Ruta de mantenimiento disponible solo para usuarios con rol de 'admin'.
- *      description: Reporta la lista de los usuarios.  Acepta parámetros de paginación 'page' y 'size'.
- *      parameters:
- *        - name: page
- *          in: query
- *          description: page to browse at once
- *          required: false
- *          explode: true
- *        - name: size
- *          in: query
- *          description: page to browse at once
- *          required: false
- *          explode: true
- *      responses:
- *       '200':
- *         description: (Ok) se retorna la lista
- *         content:
- *          application/json:
- *            schema:
- *              type: object
- *              properties:
- *                results:
- *                  type: object
- *                  properties:
- *                    count:
- *                      type: integer
- *                    totalPages:
- *                      type: integer
- *                    currentPage:
- *                      type: integer
- *                    results:
- *                      type: array
- *                      items:
- *                        $ref: '#/components/schemas/RecordedUser'
- *       '400':
- *         $ref: '#/components/responses/BadRequest'
- *       '401':
- *         $ref: '#/components/responses/Unauthorized'
- *       '404':
- *         $ref: '#/components/responses/NotFound'
- *       '500':
- *         $ref: '#/components/responses/ServerError'
- * 
- *      security:
- *        - jwtAuth: []
  * 
  * 
  * 
  * 
- *
  * 
  * 
- *                                     
+ *                                    
  */ 
 
 
@@ -540,13 +286,6 @@ require('../middlewares/auth.middleware')(passport)
  *             description: Id del usuario requerido                 
  *        required: true
  * 
- *     postVote:
- *        type: object
- *        properties: 
- *          publication_id:
- *             type: string
- *             description: Id de la publicación votada
- *        required: true
  * 
  *     RecordedProfile:
  *        type: object
@@ -585,22 +324,6 @@ require('../middlewares/auth.middleware')(passport)
  *        required: true
  * 
  * 
- *     RecordedUser:
- *        type: object
- *        properties: 
- *          id:
- *             type: string
- *             format: uuid                
- *          first_name:
- *             type: string                
- *          last_name:
- *             type: string                
- *          username:
- *             type: string                
- *          email:
- *             type: string 
- * 
- *  
  *     RecoveryEmail:
  *        type: object
  *        properties: 
