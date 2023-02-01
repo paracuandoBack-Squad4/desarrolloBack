@@ -38,15 +38,15 @@ module.exports = {
         },
         image_url: {
           type: Sequelize.STRING,
-          allowNull: false,
+          allowNull: true,
         },
         code_phone: {
           type: Sequelize.INTEGER,
-          allowNull: false,
+          allowNull: true,
         },
         phone: {
-          type: Sequelize.INTEGER,
-          allowNull: false,
+          type: Sequelize.BIGINT,
+          allowNull: true,
           unique: true
         },
         country_id: {

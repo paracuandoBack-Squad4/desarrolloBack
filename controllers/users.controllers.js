@@ -50,7 +50,8 @@ const addUser = (request, response) => {
           profile: {
             image_url: 'STRING',
             code_phone: 'INTEGER',
-            phone: 'INTEGER'
+            phone: 'INTEGER',
+            country_id: 'INTEGER'
           }
         }
       }

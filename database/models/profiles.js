@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     role_id: DataTypes.BIGINT,
     image_url: DataTypes.STRING,
     code_phone: DataTypes.INTEGER,
-    phone: DataTypes.INTEGER,
+    phone: DataTypes.BIGINT,
     country_id: DataTypes.BIGINT
   }, {
     sequelize,
@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: true,
     scopes: {
       public_view: {
-        attributes: ['id', 'country_id', 'user_id', 'role_id', 'image_url', 'code_phone', 'phone',]
+        attributes: ['id', 'country_id', 'user_id', 'role_id', 'image_url', 'code_phone', 'phone']
       },
       no_timestamps: {
         attributes: { exclude: ['created_at', 'updated_at'] }

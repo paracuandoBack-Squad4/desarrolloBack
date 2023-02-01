@@ -24,9 +24,9 @@ const getPublications = async (request, response, next) => {
 
 const addPublication = async (request, response) => {
   let profile_id = request.user.id
-  let { publication_type_id, title, description, content, picture, city_id, image_url/*, tags*/ } = request.body
-  if (profile_id && publication_type_id && title && description && content && picture && city_id, image_url /* && tags */) {
-    await publicationsServices.createPublication(profile_id, { publication_type_id, title, description, content, picture, city_id, image_url /*, tags */})
+  let { publication_type_id, title, description, content, picture, city_id, image_url, tags} = request.body
+  if (profile_id && publication_type_id && title && description && content && picture && city_id && image_url && tags ) {
+    await publicationsServices.createPublication(profile_id, { publication_type_id, title, description, content, picture, city_id, image_url, tags})
       .then(data => response.status(201).json(data))
       .catch(err => response.status(400).json({ message: err.message }))
   }
@@ -37,7 +37,7 @@ const addPublication = async (request, response) => {
         title: 'STRING',
         description: 'STRING',
         content: 'STRING',
-        // tags: 'ARRAY',
+        tags: 'ARRAY',
         picture: 'STRING',
         city_id: 'INTEGER',
         image_url: 'STRING'
