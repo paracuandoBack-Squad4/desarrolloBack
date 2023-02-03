@@ -1,0 +1,26 @@
+version: "3.7"
+services:
+  
+  team_4_api:
+    build: .
+    image: team_4_api_image
+    container_name: team_4_API_container
+    ports:
+      - "8004:8004"
+    links:
+      - team_4_postgres_app
+    env_file:
+      - .env
+
+  team_4_postgres_app:
+    image: postgres
+    container_name: team_4_postgres_container
+    ports: 
+      - "5434:5432"
+    env_file:
+      - .env.db.docker
+    volumes:
+      - team_4_postgres:/var/lib/postgresql/data
+
+volumes:
+  team_4_postgres:
