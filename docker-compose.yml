@@ -3,8 +3,8 @@ services:
   
   team_4_API:
     build: .
-    image: team_4_API_image
-    container_name: team_4_API_container
+    image: team_4_api_image
+    container_name: team_4_api_container
     ports:
       - "8004:8004"
     links:
