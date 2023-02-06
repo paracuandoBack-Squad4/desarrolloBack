@@ -88,7 +88,7 @@ app.get('/', ({ res }) => {
 // docsRouter(app)
 // thirdPartyServicesRouter(app)
 routerModels(app) 
-routerErrorHandler()
+routerErrorHandler(app)
 //Here we can add others
 
 // errorHandlerRouter(app) 
