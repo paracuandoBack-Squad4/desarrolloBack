@@ -11,6 +11,10 @@ services:
       - team_4_postgres_app
     env_file:
       - .env
+    volumes:
+      - type: bind
+        source: /
+        target: /usr/src/app
 
   team_4_postgres_app:
     image: postgres
@@ -24,3 +28,5 @@ services:
 
 volumes:
   team_4_postgres:
+
+  
