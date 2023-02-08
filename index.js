@@ -2,7 +2,6 @@ const express = require('express')
 const cors = require('cors')
 const helmet = require('helmet')
 const routerModels = require('./routes/models.route')
-const routerErrorHandler = require('./routes/errorhandler.router');
 require('dotenv').config()
 
 const swaggerUi = require('swagger-ui-express')
@@ -87,10 +86,14 @@ app.get('/', ({ res }) => {
 // publicRouter(app)
 // docsRouter(app)
 // thirdPartyServicesRouter(app)
+<<<<<<< HEAD
 routerModels(app) 
 routerErrorHandler(app)
 //Here we can add others
 
+=======
+routerModels(app) //Here we can add others
+>>>>>>> parent of 5e2bee5 (feat middleware and route error)
 // errorHandlerRouter(app) 
 app.get('/', ({ res }) => {
   return res.json({
